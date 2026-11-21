@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Topform Technologies | CCTV & IT Solutions in Dubai</title>
+<meta name="description" content="CCTV, door access, PABX, software and IT security solutions in Dubai since 2010.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#061640;--navy2:#0a2a6c;--blue:#3fa9e0;--ice:#e8f4fc;--ink:#c9d8f0}
+*{box-sizing:border-box;margin:0}html{scroll-behavior:smooth}
+body{font-family:Sora,system-ui,sans-serif;background:var(--navy);color:var(--ink);line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{color:#fff;line-height:1.1}
+.wrap{max-width:1160px;margin:auto;padding:0 24px}
+nav{position:fixed;inset:0 0 auto;z-index:20;backdrop-filter:blur(14px);background:#061640cc;border-bottom:1px solid #3fa9e033}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{font-weight:800;color:#fff;font-size:1.25rem}.logo span{color:var(--blue);font-weight:600;font-size:.7rem;display:block;letter-spacing:.2em}
+nav ul{display:flex;gap:26px;list-style:none;font-size:.9rem}nav ul a:hover{color:var(--blue)}
+.btn{display:inline-block;background:var(--blue);color:#04122e;font-weight:600;padding:13px 26px;border-radius:999px;border:0;cursor:pointer;font:inherit;font-weight:600;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-3px);box-shadow:0 12px 30px #3fa9e066}
+.hero{min-height:100vh;display:grid;align-items:center;padding-top:68px;position:relative;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:30px;align-items:center}
+.hero h1{font-size:clamp(2.4rem,5.4vw,4.4rem);font-weight:800;margin-bottom:22px}
+.hero p{max-width:480px;margin-bottom:30px}
+.glow{position:absolute;width:620px;height:620px;border-radius:50%;background:radial-gradient(#3fa9e055,transparent 65%);right:-120px;top:10%;filter:blur(10px)}
+#stage{perspective:1400px;height:520px;display:grid;place-items:center}
+#scene{position:relative;width:300px;height:300px;transform-style:preserve-3d;transform:rotateX(58deg) rotateZ(-35deg);transition:transform .15s}
+.layer{position:absolute;inset:0;border-radius:22px;border:1.5px solid #3fa9e0aa;background:linear-gradient(135deg,#3fa9e033,#0a2a6c99);box-shadow:0 0 40px #3fa9e044 inset;display:grid;place-items:center;color:#fff;font-weight:600;font-size:.95rem;animation:float 5s ease-in-out infinite}
+.layer:nth-child(1){transform:translateZ(0);background:#0a2a6cdd}
+.layer:nth-child(2){transform:translateZ(70px);animation-delay:-1s}
+.layer:nth-child(3){transform:translateZ(140px);animation-delay:-2s}
+.layer:nth-child(4){transform:translateZ(210px);animation-delay:-3s;background:#3fa9e0cc;color:#04122e}
+@keyframes float{50%{translate:0 0 22px}}
+.orb{position:absolute;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff,var(--blue) 40%,#0a2a6c);animation:drift 9s ease-in-out infinite}
+@keyframes drift{50%{transform:translateY(-26px)}}
+section{padding:110px 0;position:relative}
+.light{background:var(--ice);color:#33425f}.light h2,.light h3{color:var(--navy2)}
+h2{font-size:clamp(1.8rem,3.6vw,2.8rem);margin-bottom:16px;font-weight:800}
+.sub{max-width:620px;margin-bottom:50px}
+.grid{display:grid;gap:26px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));perspective:1200px}
+.card{background:linear-gradient(160deg,#0f3a8a66,#0a1f55);border:1px solid #3fa9e033;border-radius:20px;padding:30px;transform-style:preserve-3d;transition:transform .15s,border-color .3s;will-change:transform}
+.card:hover{border-color:var(--blue)}
+.card h3{font-size:1.15rem;margin:14px 0 10px;transform:translateZ(36px)}
+.card p{font-size:.9rem;transform:translateZ(18px)}
+.ico{width:54px;height:54px;border-radius:16px;background:var(--blue);display:grid;place-items:center;font-size:1.5rem;transform:translateZ(54px);box-shadow:0 14px 24px #0007}
+.card a{display:inline-block;margin-top:18px;color:var(--blue);font-weight:600;font-size:.9rem;transform:translateZ(30px)}
+.why{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.why div{background:#fff;border-radius:18px;padding:26px;box-shadow:0 20px 40px #0a2a6c18;border-top:4px solid var(--blue)}
+.why p{font-size:.9rem;margin-top:8px}
+.tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.tags span{border:1px solid #3fa9e055;border-radius:999px;padding:8px 16px;font-size:.85rem;background:#3fa9e014}
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+form{display:grid;gap:12px;background:#0a1f55;padding:28px;border-radius:20px;border:1px solid #3fa9e044}
+input,select,textarea{font:inherit;padding:13px 16px;border-radius:12px;border:1px solid #3fa9e044;background:#061640;color:#fff;width:100%}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--blue)}
+.info p{margin-bottom:14px}.info b{color:#fff;display:block}
+.tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.tabs button{background:0;border:1px solid #3fa9e055;color:var(--ink);padding:9px 20px;border-radius:999px;cursor:pointer;font:inherit}
+.tabs button.on{background:var(--blue);color:#04122e}
+iframe{width:100%;height:380px;border:0;border-radius:20px;filter:saturate(.8)}
+footer{padding:34px 0;text-align:center;font-size:.85rem;border-top:1px solid #3fa9e033}
+.rv{opacity:0;transform:translateY(40px) rotateX(12deg);transition:1s cubic-bezier(.2,.7,.2,1)}.rv.in{opacity:1;transform:none}
+@media(max-width:860px){nav ul{display:none}.hero .wrap,.contact{grid-template-columns:1fr}#stage{height:380px;transform:scale(.75)}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style></head><body>
+<nav><div class="wrap"><a class="logo" href="#top">TOPFORM<span>TECHNOLOGIES</span></a>
+<ul><li><a href="#about">About</a></li><li><a href="#services">Services</a></li><li><a href="#contact">Contact</a></li><li><a href="#branches">Branches</a></li></ul>
+<a class="btn" href="#contact">Get in touch</a></div></nav>
+
+<header class="hero" id="top"><div class="glow"></div><div class="wrap">
+<div><h1>Innovative IT solutions for your business in Dubai</h1>
+<p>World-class IT sales and services, website design, development and maintenance. Founded in 2010, with 100% result-oriented services for our valued customers.</p>
+<a class="btn" href="#services">Explore our services</a></div>
+<div id="stage"><div id="scene">
+<div class="layer">Software</div><div class="layer">Network</div><div class="layer">CCTV</div><div class="layer">Security</div>
+</div><span class="orb" style="width:46px;height:46px;left:8%;top:12%"></span><span class="orb" style="width:26px;height:26px;right:10%;top:60%;animation-delay:-3s"></span></div>
+</div></header>
+
+<section class="light" id="about"><div class="wrap">
+<h2>Why choose Topform Technologies for IT security solutions in Dubai?</h2>
+<p class="sub">At Topform Technologies, we provide end-to-end IT security solutions tailored to meet the unique needs of businesses in Dubai. Our team brings years of experience and specialised knowledge to protect your business from cyber threats.</p>
+<div class="why">
+<div class="rv"><h3>Expert team</h3><p>Certified IT security professionals holding certifications such as CISSP, CEH and CISM, meeting the highest industry standards.</p></div>
+<div class="rv"><h3>Client-centric approach</h3><p>Care of customers is at the core of all we do. We target ourselves to uphold the best standards and best practice to content our customers.</p></div>
+<div class="rv"><h3>Custom solutions</h3><p>Our team offers a wealth of experience, qualifications, language and culture, bringing their own unique skill set.</p></div>
+<div class="rv"><h3>Quality assurance</h3><p>Innovative designs and a commitment to bespoke customer service, delivered to the best standards.</p></div>
+</div></div></section>
+
+<section id="services"><div class="wrap">
+<h2>Services built specifically for your business</h2><p class="sub">From surveillance to custom software, everything your company needs under one roof.</p>
+<div class="grid" id="cards"></div></div></section>
+
+<section class="light"><div class="wrap"><h2>Everything we install and support</h2>
+<div class="tags" id="tags" style="color:var(--navy2)"></div></div></section>
+
+<section id="contact"><div class="wrap"><h2>Ready to secure your business?</h2>
+<p class="sub">Contact us today to get started with our comprehensive IT security solutions and protect your business from potential threats.</p>
+<div class="contact"><div class="info">
+<p><b>Head office</b>#306, 3rd Floor, Al Qouz 4, Dubai, UAE</p>
+<p><b>Call us</b><a href="tel:+971566644813">+971 56 664 4813</a><br><a href="tel:+97143960302">+971 4 396 0302</a></p>
+<p><b>Email us</b><a href="mailto:info@topformtechnologies.com">info@topformtechnologies.com</a><br><a href="mailto:sales@topformtechnologies.com">sales@topformtechnologies.com</a></p></div>
+<form id="f"><input name="Name" placeholder="Your name" required><input name="Mobile" placeholder="Your mobile"><input name="Email" type="email" placeholder="Your email" required>
+<select name="Device"><option value="">Device type</option><option>CCTV</option><option>Door access</option><option>PABX</option><option>Software</option><option>Other</option></select>
+<input name="Subject" placeholder="Subject"><textarea name="Description" rows="4" placeholder="Description"></textarea>
+<button class="btn">Send enquiry</button><small id="msg" role="status"></small></form></div></div></section>
+
+<section class="light" id="branches"><div class="wrap"><h2>Find us across the map</h2><p class="sub">Visit our branches to find the nearest one to you.</p>
+<div class="tabs" id="tabs" style="color:var(--navy2)"></div>
+<iframe id="map" title="Branch map" loading="lazy" src="https://www.google.com/maps?q=Topform+Technologies+Al+Quoz+Dubai&output=embed"></iframe></div></section>
+<footer>© <span id="y"></span> Topform Technologies LLC · Dubai, UAE</footer>
+
+<script>
+const S=[["📹","CCTV & Security Systems","A CCTV system uses cameras to record and capture footage at key points: entryways, secure rooms and things of that nature."],
+["🔐","Door Access & TNA Systems","As a company expands, security takes on greater significance. We offer electronic access control with sliding and swing doors."],
+["☎️","PABX & Telephone Systems","IP-PBX, or IP-based private branch exchange, is regarded as the replacement for older phone systems."],
+["🌐","Website Design & Development","Every successful business starts with a great website, and we deliver you the same in Dubai."],
+["</>","Custom Software Developments","Web-based application development with cloud deployment is gaining ground, alongside standalone machine solutions."],
+["📱","Mobile Application Development","We create stunning iPhone, iPad and Android smartphone and tablet apps, developing projects for independent entrepreneurs."],
+["🏢","Home & Office IT Solutions","Industry-leading IT solutions across financial services, pharmaceutical, professional services, retail and hospitality."],
+["💻","Hardware & Software Sales","We are your one-stop solution for all your hardware and software needs."],
+["📊","ERP & Inventory Applications","ERP helps businesses make better decisions through accurate inventory data, with systems that control logistics, operations and finance."]];
+const $=s=>document.querySelector(s);
+$("#cards").innerHTML=S.map(s=>`<article class="card rv"><div class="ico">${s[0]}</div><h3>${s[1]}</h3><p>${s[2]}</p><a href="#contact">Read more</a></article>`).join("");
+$("#tags").innerHTML="Time Attendance Machine,Door Access Control Systems,Intercom Systems,Structured Cabling,Office Telephony,Biometric Systems,Access Points Solutions,Email Hosting,Web Hosting & Domain,NAS & Personal Cloud,Software Development,Car Parking Gates,Home Automation Systems,CCTV Maintenance & Installation,ERP & HR Software,Cheque Printing,Restaurant & Hypermarket POS,Accounting Software,Microsoft 365 & G Suite Email,SEO & Digital Marketing,IT Annual Maintenance Contract,Web Application Development".split(",").map(t=>`<span>${t}</span>`).join("");
+const B={"Head Office Dubai":"Topform Technologies Al Quoz Dubai",Sharjah:"Sharjah UAE",Abudhabi:"Abu Dhabi UAE","Kundapura, India":"Kundapura India","Udupi, India":"Udupi India"};
+$("#tabs").innerHTML=Object.keys(B).map((k,i)=>`<button class="${i?"":"on"}" data-q="${B[k]}">${k}</button>`).join("");
+$("#tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;document.querySelectorAll("#tabs button").forEach(x=>x.classList.remove("on"));b.classList.add("on");$("#map").src="https://www.google.com/maps?q="+encodeURIComponent(b.dataset.q)+"&output=embed"};
+$("#y").textContent=new Date().getFullYear();
+const sc=$("#scene"),calm=matchMedia("(prefers-reduced-motion:reduce)").matches;
+if(!calm){addEventListener("mousemove",e=>{const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;sc.style.transform=`rotateX(${58-y*26}deg) rotateZ(${-35+x*40}deg)`});
+addEventListener("scroll",()=>{sc.parentElement.style.transform=`translateY(${scrollY*.25}px)`},{passive:true});
+document.querySelectorAll(".card").forEach(c=>{c.onmousemove=e=>{const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform=`rotateY(${x*16}deg) rotateX(${-y*16}deg)`};c.onmouseleave=()=>c.style.transform=""})}
+const io=new IntersectionObserver(l=>l.forEach(e=>e.isIntersecting&&e.target.classList.add("in")),{threshold:.15});
+document.querySelectorAll(".rv").forEach(e=>io.observe(e));
+$("#f").onsubmit=async e=>{e.preventDefault();const m=$("#msg");try{const r=await fetch("/api/contact",{method:"POST",body:JSON.stringify(Object.fromEntries(new FormData(e.target)))});if(!r.ok)throw await r.text();e.target.reset();m.textContent="Thanks. We will call you back shortly."}catch(x){m.textContent=x||"Could not send. Please call us."}};
+</script></body></html>
