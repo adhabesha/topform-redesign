@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Topform Admin</title>
+<script src="/defaults.js"></script>
+<style>
+:root{--navy:#061640;--blue:#3fa9e0;--bd:#d6e0ee}
+*{box-sizing:border-box;margin:0}body{font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;background:#f3f7fc;color:#0e1b3a}
+button{font:inherit;cursor:pointer}[hidden]{display:none!important}
+#login{display:grid;place-items:center;min-height:100vh}#login form{background:#fff;padding:32px;border-radius:18px;box-shadow:0 20px 50px #0a2a6c22;width:min(360px,92vw);display:grid;gap:14px}
+#login h1{font-size:1.3rem}input,textarea,select{font:inherit;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;width:100%;background:#fff;color:inherit}
+input:focus,textarea:focus{outline:2px solid var(--blue)}
+header{position:sticky;top:0;z-index:5;background:var(--navy);color:#fff;display:flex;gap:12px;align-items:center;padding:12px 20px;flex-wrap:wrap}header b{font-size:1.05rem;margin-right:auto}
+#st{font-size:.8rem;color:#9fc3e6}.btn{border:0;border-radius:999px;padding:9px 18px;background:#e7eef8;color:var(--navy);font-weight:600}.btn.p{background:var(--blue);color:#04122e}.btn.s{padding:6px 12px;font-size:.85rem}.btn.d{background:#fde4e4;color:#a11}
+nav{display:flex;gap:6px;flex-wrap:wrap;padding:14px 20px 0}nav button{border:0;background:#e3ecf8;border-radius:999px;padding:8px 16px}nav .on{background:var(--navy);color:#fff}
+main{max-width:1000px;margin:18px auto 80px;padding:0 20px;display:grid;gap:16px}
+.card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 8px 24px #0a2a6c12;display:grid;gap:12px}.card h3{font-size:1rem}.card h4{font-size:.8rem;color:#5b6a86;text-transform:uppercase;letter-spacing:.08em}
+.f{display:grid;gap:4px}.f>span{font-size:.8rem;color:#5b6a86}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:700px){.grid2{grid-template-columns:1fr}}
+.pv{height:110px;border-radius:12px;background:#e9f0fa;display:grid;place-items:center;overflow:hidden}.pv img,.pv video{max-width:100%;max-height:100%;object-fit:contain}code{font-size:.72rem;color:#5b6a86;word-break:break-all}
+.mg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}.mi{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:8px;display:grid;gap:6px;cursor:pointer}.mi .pv{height:100px}.mi small{font-size:.7rem;color:#5b6a86;word-break:break-all}
+#modal{position:fixed;inset:0;background:#061640cc;z-index:20;display:grid;place-items:center}#modal>div{background:#f3f7fc;border-radius:18px;padding:18px;width:min(900px,94vw);max-height:88vh;overflow:auto;display:grid;gap:12px}
+.bar{height:6px;background:#dbe6f5;border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--blue);width:0}
+.tag{display:inline-block;background:#e3ecf8;border-radius:999px;padding:2px 10px;font-size:.75rem}
+</style></head><body>
+<div id="login"><form id="lf"><h1>Topform Admin</h1><input id="pw" type="password" placeholder="Password" autocomplete="current-password" required><button class="btn p">Sign in</button><small id="le" style="color:#a11"></small></form></div>
+<div id="app" hidden>
+<header><b>Topform Admin</b><span id="st"></span><span id="gh" class="tag"></span><a class="btn s" href="/" target="_blank">View site</a><button class="btn p" id="save">Save &amp; publish</button><button class="btn s" id="out">Log out</button></header>
+<nav id="tabs"></nav><main id="view"></main></div>
+<div id="modal" hidden><div><div class="row"><b style="margin-right:auto">Choose or upload media</b><label class="btn p s">Upload<input id="mu" type="file" multiple accept="image/png,image/jpeg,image/gif,image/webp,video/mp4,video/webm" hidden></label><button class="btn s" id="mx">Close</button></div><div class="bar" id="mb" hidden><i></i></div><div id="mbody" class="mg"></div></div></div>
+<script>
+const $=s=>document.querySelector(s),DEF=window.DEFAULTS,isV=u=>/\.(mp4|webm)(\?|$)/i.test(u||"");
+const el=(t,p={},...k)=>{const e=document.createElement(t);for(const[a,v]of Object.entries(p)){if(a==="class")e.className=v;else if(a.startsWith("on"))e[a]=v;else e.setAttribute(a,v)}k.flat().forEach(c=>e.append(c&&c.nodeType?c:document.createTextNode(c==null?"":c)));return e};
+const api=(m,u,b)=>fetch(u,{method:m,credentials:"same-origin",headers:{"X-Requested-With":"tf",...(b&&!(b instanceof FormData)?{"Content-Type":"application/json"}:{})},body:b?(b instanceof FormData?b:JSON.stringify(b)):undefined});
+let D,tab="texts",pg="about",dirty=false;
+const mark=()=>{dirty=true;$("#st").textContent="Unsaved changes"};
+const mv=(a,i,d)=>{const j=i+d;if(j<0||j>=a.length)return;[a[i],a[j]]=[a[j],a[i]];mark();render()};
+const fld=(label,o,k,area)=>{const i=area?el("textarea",{rows:3}):el("input",{type:"text"});i.value=o[k]??"";i.oninput=()=>{o[k]=i.value;mark()};return el("label",{class:"f"},el("span",{},label),i)};
+const prev=u=>isV(u)?el("video",{src:u,muted:"",loop:"",autoplay:"",playsinline:""}):el("img",{src:u||"",alt:""});
+const mfld=(label,o,k)=>{const box=el("div",{class:"pv"}),code=el("code");const draw=()=>{box.replaceChildren(prev(o[k]));code.textContent=o[k]||"(none)"};draw();return el("div",{class:"f"},el("span",{},label),box,el("div",{class:"row"},el("button",{class:"btn s",onclick:()=>pick(u=>{o[k]=u;mark();draw()})},"Choose / upload"),code))};
+const ctl=(a,i)=>el("div",{class:"row"},el("button",{class:"btn s",onclick:()=>mv(a,i,-1)},"↑"),el("button",{class:"btn s",onclick:()=>mv(a,i,1)},"↓"),el("button",{class:"btn s d",onclick:()=>{if(confirm("Delete this item?")){a.splice(i,1);mark();render()}}},"Delete"));
+const up=(f,pr)=>new Promise((res,rej)=>{const x=new XMLHttpRequest();x.open("POST","/api/admin/upload");x.setRequestHeader("X-Requested-With","tf");x.upload.onprogress=e=>pr&&e.lengthComputable&&pr(e.loaded/e.total);x.onload=()=>x.status===200?res(JSON.parse(x.responseText)):rej(new Error(x.responseText||("HTTP "+x.status)));x.onerror=()=>rej(new Error("network error"));const fd=new FormData();fd.append("file",f);x.send(fd)});
+async function uploadMany(files,after,bar=$("#mb")){const i=bar.firstChild;bar.hidden=false;for(const f of files){try{i.style.width="0";await up(f,p=>i.style.width=(p*100)+"%")}catch(e){alert(f.name+": "+e.message)}}bar.hidden=true;after&&after()}
+async function loadMedia(cb){const b=$("#mbody");b.replaceChildren("Loading…");let list=[];try{list=await (await api("GET","/api/admin/media")).json()}catch(e){}
+ const built=[...new Set([DEF.logo,DEF.icon,...DEF.services.map(s=>s.img),...DEF.products,...DEF.clients])];
+ b.replaceChildren(...[...list.map(m=>({u:m.url,n:m.name,del:1})),...built.map(u=>({u,n:"built-in"}))].map(m=>{const c=el("div",{class:"mi",onclick:()=>cb&&cb(m.u)},el("div",{class:"pv"},prev(m.u)),el("small",{},m.n));
+  if(m.del)c.append(el("button",{class:"btn s d",onclick:async e=>{e.stopPropagation();if(!confirm("Delete this file permanently?"))return;await api("DELETE","/api/admin/media?name="+encodeURIComponent(m.n));loadMedia(cb)}},"Delete"));return c}))}
+function pick(cb){const m=$("#modal");m.hidden=false;const sel=u=>{m.hidden=true;cb(u)};loadMedia(sel);$("#mu").onchange=e=>{uploadMany([...e.target.files],()=>loadMedia(sel));e.target.value=""}}
+$("#mx").onclick=()=>$("#modal").hidden=true;
+const sectionOf=k=>/^(about)/.test(k)||k==="why_title"||k==="why_intro"?"About page":/^(svc_|hint|discover|read_more|tags_title)/.test(k)?"Services page":/^(contact|office|call_|email|phone|whatsapp)/.test(k)?"Contact":/^branches/.test(k)?"Branches page":"Home & general";
+const hum=k=>k.replace(/_/g," ").replace(/^./,c=>c.toUpperCase());
+function listEd(title,arr,mk,blank){const c=el("div",{class:"card"},el("h3",{},title));arr.forEach((x,i)=>c.append(el("div",{class:"card",style:"background:#f6f9fe;box-shadow:none"},mk(x,i),ctl(arr,i))));c.append(el("button",{class:"btn s",onclick:()=>{arr.push(blank());mark();render()}},"+ Add"));return c}
+const TABS={
+ texts:()=>{const g={};Object.keys(DEF.text).forEach(k=>(g[sectionOf(k)]??=[]).push(k));return[...Object.entries(g).map(([n,ks])=>el("div",{class:"card"},el("h3",{},n),ks.map(k=>fld(hum(k),D.text,k,(D.text[k]||"").length>70)))),chipEd()]},
+ services:()=>[listEd("Services",D.services,(s)=>el("div",{class:"grid2"},el("div",{class:"f"},fld("Title",s,"title"),fld("Description",s,"desc",1),fld("Emoji / icon",s,"icon"),el("label",{class:"row"},(()=>{const c=el("input",{type:"checkbox",style:"width:auto"});c.checked=!!s.inv;c.onchange=()=>{s.inv=c.checked;mark()};return c})(),"Show in white on dark cards (for black icons)")),mfld("Image / GIF / video",s,"img")),()=>({icon:"",title:"New service",desc:"",img:"/img/cctv.png"}))],
+ why:()=>[listEd("Why choose us",D.why,w=>el("div",{},fld("Title",w,"t"),fld("Text",w,"d",1)),()=>({t:"New point",d:""}))],
+ lists:()=>[el("div",{class:"card"},el("h3",{},"Install & support tags (one per line)"),(()=>{const t=el("textarea",{rows:10});t.value=D.tags.join("\n");t.oninput=()=>{D.tags=t.value.split("\n").map(x=>x.trim()).filter(Boolean);mark()};return t})()),listEd("Branches (name + map search text)",D.branches,b=>el("div",{class:"grid2"},fld("Name",b,"name"),fld("Google Maps search",b,"q")),()=>({name:"New branch",q:""}))],
+ media:()=>[mediaLists("Client logos (rotating ring on the Services page)",D.clients),mediaLists("Scrolling product images / GIFs / videos (Services page, bottom)",D.products),el("div",{class:"card"},el("h3",{},"Branding"),el("div",{class:"grid2"},mfld("Logo (wide, light)",D,"logo"),mfld("Icon (square)",D,"icon")))],
+ pages:()=>{const bl=D.blocks[pg]??=[];const sel=el("select",{onchange:e=>{pg=e.target.value;render()}},["about","services","contact","branches"].map(p=>el("option",{value:p,...(p===pg?{selected:""}:{})},hum(p)+" page")));
+  const add=t=>()=>{bl.push(t==="text"?{type:t,title:"New heading",body:""}:t==="media"?{type:t,url:"/img/cctv.png",caption:""}:t==="gallery"?{type:t,title:"",urls:[]}:{type:t,title:"Call to action",label:"Get in touch",target:"contact"});mark();render()};
+  return[el("div",{class:"card"},el("h3",{},"Page components"),el("p",{},"Pick a page, then add components. They appear at the bottom of that page."),sel,el("div",{class:"row"},["text","media","gallery","cta"].map(t=>el("button",{class:"btn s p",onclick:add(t)},"+ "+({text:"Text",media:"Image / GIF / Video",gallery:"Gallery",cta:"Button"}[t]))))),
+  ...bl.map((b,i)=>el("div",{class:"card"},el("span",{class:"tag"},b.type),
+   b.type==="text"?[fld("Heading",b,"title"),fld("Text",b,"body",1)]:b.type==="media"?[mfld("Media",b,"url"),fld("Caption",b,"caption")]:b.type==="gallery"?[fld("Heading",b,"title"),mediaLists("Gallery items",b.urls=b.urls||[])]:[fld("Heading",b,"title"),fld("Button label",b,"label"),el("label",{class:"f"},el("span",{},"Opens page"),(()=>{const s=el("select");["contact","about","services","branches"].forEach(p=>s.append(el("option",{value:p,...(p===b.target?{selected:""}:{})},p)));s.onchange=()=>{b.target=s.value;mark()};return s})())],ctl(bl,i)))]},
+ library:()=>{const g=el("div",{class:"mg"});const c=el("div",{class:"card"},el("h3",{},"Media library"),el("div",{class:"row"},el("label",{class:"btn p s"},"Upload files",el("input",{type:"file",multiple:"",accept:"image/png,image/jpeg,image/gif,image/webp,video/mp4,video/webm",hidden:"",onchange:e=>{uploadMany([...e.target.files],draw,$("#mb2"))}})),el("small",{},"PNG, JPG, GIF, WEBP, MP4, WEBM")),el("div",{class:"bar",id:"mb2",hidden:""},el("i")),g);
+  async function draw(){let l=[];try{l=await (await api("GET","/api/admin/media")).json()}catch(e){}g.replaceChildren(...l.map(m=>el("div",{class:"mi"},el("div",{class:"pv"},prev(m.url)),el("small",{},m.name+" · "+(m.size/1024).toFixed(0)+" KB"),el("div",{class:"row"},el("button",{class:"btn s",onclick:()=>navigator.clipboard.writeText(location.origin+m.url)},"Copy URL"),el("button",{class:"btn s d",onclick:async()=>{if(confirm("Delete "+m.name+"?")){await api("DELETE","/api/admin/media?name="+encodeURIComponent(m.name));draw()}}},"Delete")))));if(!l.length)g.append("No uploads yet.")}draw();return[c]},
+ backup:()=>[el("div",{class:"card"},el("h3",{},"Backup & reset"),el("div",{class:"row"},el("button",{class:"btn s",onclick:()=>{const a=el("a",{href:URL.createObjectURL(new Blob([JSON.stringify(D,null,1)],{type:"application/json"})),download:"topform-content.json"});a.click()}},"Download content backup"),el("label",{class:"btn s"},"Restore from file",el("input",{type:"file",accept:"application/json",hidden:"",onchange:async e=>{try{D=merge(JSON.parse(await e.target.files[0].text()));mark();render()}catch(x){alert("Invalid file")}}})),el("button",{class:"btn s d",onclick:()=>{if(confirm("Reset ALL text, lists and images to the original defaults? (uploaded files stay in the library)")){D=merge({});mark();render()}}},"Reset to defaults")))]
+};
+const chipEd=()=>{const c=el("div",{class:"card"},el("h3",{},"Hero chips (home page)"));const t=el("textarea",{rows:4});t.value=D.chips.join("\n");t.oninput=()=>{D.chips=t.value.split("\n").map(x=>x.trim()).filter(Boolean);mark()};c.append(t);return c};
+function mediaLists(title,arr){const c=el("div",{class:"card"},el("h3",{},title));const g=el("div",{class:"mg"});arr.forEach((u,i)=>{const o={u};const m=el("div",{class:"mi",style:"cursor:default"},mfld("",{get u(){return arr[i]},set u(v){arr[i]=v}},"u"),ctl(arr,i));g.append(m)});c.append(g,el("div",{class:"row"},el("button",{class:"btn s",onclick:()=>pick(u=>{arr.push(u);mark();render()})},"+ Add media")));return c}
+const TN={texts:"Texts",services:"Services",why:"Why choose us",lists:"Tags & branches",media:"Images & media",pages:"Page components",library:"Media library",backup:"Backup"};
+function render(){$("#tabs").replaceChildren(...Object.entries(TN).map(([k,v])=>el("button",{class:k===tab?"on":"",onclick:()=>{tab=k;render()}},v)));const v=$("#view");v.replaceChildren(...[].concat(TABS[tab]()).filter(Boolean))}
+const merge=s=>({...DEF,...s,text:{...DEF.text,...(s.text||{})},blocks:{...DEF.blocks,...(s.blocks||{})}});
+async function start(){D=merge(await (await fetch("/api/content",{cache:"no-store"})).json());$("#login").hidden=true;$("#app").hidden=false;render();status()}
+async function status(){try{const s=await (await api("GET","/api/admin/status")).json();$("#gh").textContent=s.msg;$("#gh").title=s.github?"Changes are committed to GitHub so they survive redeploys":"Set GITHUB_TOKEN and GITHUB_REPO to make changes permanent on Render"}catch(e){}}
+$("#lf").onsubmit=async e=>{e.preventDefault();const r=await api("POST","/api/admin/login",{password:$("#pw").value});if(r.ok)start();else $("#le").textContent=(await r.text())||"Login failed"};
+$("#save").onclick=async()=>{$("#st").textContent="Saving…";const r=await api("PUT","/api/admin/content",D);if(r.ok){dirty=false;$("#st").textContent="Saved ✓ "+new Date().toLocaleTimeString();status();setTimeout(status,30000)}else{$("#st").textContent="Save failed: "+await r.text()}};
+$("#out").onclick=async()=>{await api("POST","/api/admin/logout");location.reload()};
+addEventListener("beforeunload",e=>{if(dirty){e.preventDefault();e.returnValue=""}});
+api("GET","/api/admin/me").then(r=>{if(r.ok)start()});
+</script></body></html>
