@@ -510,6 +510,7 @@ func main() {
 	mux.HandleFunc("/home-1", homePage("home-1.html"))
 	mux.HandleFunc("/home-2", homePage("index.html"))
 	mux.HandleFunc("/home-3", homePage("home-3.html"))
+	mux.HandleFunc("/home-4", homePage("home-4.html"))
 	mux.HandleFunc("/admin", serveAdmin)
 	mux.HandleFunc("/admin/", serveAdmin)
 	mux.HandleFunc("/uploads/", func(w http.ResponseWriter, r *http.Request) {
