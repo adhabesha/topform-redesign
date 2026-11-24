@@ -164,10 +164,10 @@ body.i3 .top,body.i3 .chips,body.i3 .copy,body.i3 .wm,body.i3 .help,body.i3 #fr,
 @keyframes adrift{to{transform:translate3d(4%,-3%,0) scale(1.12)}}
 #stage{display:none}
 #st3{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;--s:.75;--mx:0;--my:0}
-#st3 .sa{position:absolute;left:54%;top:52%;width:0;height:0;transform:scale(var(--s))}
+#st3 .sa{position:absolute;left:54%;top:52%;width:0;height:0;transform:perspective(1500px) rotateX(calc(var(--my)*-18deg)) rotateY(calc(var(--mx)*24deg)) scale(var(--s))}
 #st3 .ly{position:absolute;left:0;top:0;width:0;height:0}
-#st3 .la{transform:translate(calc(var(--mx)*-16px),calc(var(--my)*-10px))}
-#st3 .lb{transform:translate(calc(var(--mx)*-34px),calc(var(--my)*-22px))}
+#st3 .la{transform:translate(calc(var(--mx)*-18px),calc(var(--my)*-12px))}
+#st3 .lb{transform:translate(calc(var(--mx)*-40px),calc(var(--my)*-26px))}
 /* orbits around the emblem */
 #st3 .ob{position:absolute;left:calc(var(--D)/-2);top:calc(var(--D)/-2);width:var(--D);height:var(--D);transform:rotateX(62deg);opacity:0;transition:opacity 2s}
 #st3.go .ob{opacity:.9;transition-delay:.8s}
@@ -206,14 +206,14 @@ body.i3 .top,body.i3 .chips,body.i3 .copy,body.i3 .wm,body.i3 .help,body.i3 #fr,
 @keyframes cin{from{opacity:0;scale:.4;translate:0 40px}to{opacity:1;scale:1;translate:0 0}}
 /* components + labels (front facing) */
 #st3 .it{position:absolute;left:0;top:0;width:0;height:0;transform:translate(var(--x),var(--y))}
-#st3 .cmp{position:absolute;left:-120px;top:-180px;width:240px;height:205px;display:flex;align-items:flex-end;justify-content:center;opacity:0;transform:translateY(-420px)}
+#st3 .cmp{position:absolute;left:-120px;top:-165px;width:240px;height:175px;display:flex;align-items:flex-end;justify-content:center;opacity:0;transform:translateY(-420px)}
 #st3.go .cmp{animation:cdrop 1s var(--k) cubic-bezier(.35,0,.6,1) forwards}
 @keyframes cdrop{0%{opacity:0;transform:translateY(-420px) scale(1.1)}12%{opacity:1}55%{transform:translateY(8px) scale(1)}72%{transform:translateY(-16px)}88%{transform:translateY(3px)}100%{opacity:1;transform:none}}
 #st3 .cmp>div{display:contents}
-#st3 .cmp img,#st3 .cmp video{max-width:100%;max-height:205px;object-fit:contain;display:block;filter:drop-shadow(0 16px 14px #0009);animation:flt 4.4s ease-in-out infinite alternate;animation-delay:var(--f)}
+#st3 .cmp img,#st3 .cmp video{max-width:100%;max-height:175px;object-fit:contain;display:block;filter:drop-shadow(0 16px 14px #0009);animation:flt 4.4s ease-in-out infinite alternate;animation-delay:var(--f)}
 #st3 .cmp img.inv{filter:brightness(0) invert(1) drop-shadow(0 16px 14px #0009)}
 @keyframes flt{from{transform:translateY(0)}to{transform:translateY(-11px)}}
-#st3 .lab{position:absolute;left:-125px;top:38px;width:250px;text-align:center;font-weight:700;font-size:21px;line-height:1.12;letter-spacing:-.01em;color:#fff;text-shadow:0 2px 12px #03163e,0 0 20px #3fa9e0aa;opacity:0;transform:translateY(8px)}
+#st3 .lab{position:absolute;left:-125px;top:32px;width:250px;text-align:center;font-weight:700;font-size:20px;line-height:1.12;letter-spacing:-.01em;color:#fff;text-shadow:0 2px 12px #03163e,0 0 20px #3fa9e0aa;opacity:0;transform:translateY(8px)}
 #st3.go .lab{animation:fup .6s calc(var(--k) + .7s) ease-out forwards}
 @keyframes fup{to{opacity:1;transform:none}}
 #st3.fast *{animation-delay:0s!important;animation-duration:.01s!important}
@@ -344,23 +344,23 @@ const st=$("#st3");
 // reference stage 1897x895, hub centre (960,490)
 const H0=[960,490];
 const NODES=[
- {s:0,x:480,y:310,r:[[850,462],[740,462],[740,357],[565,357]]},
- {s:8,x:780,y:180,r:[[920,412],[920,330],[865,330],[865,227]]},
- {s:1,x:1190,y:185,r:[[1000,412],[1000,330],[1105,330],[1105,232]]},
- {s:6,x:1640,y:170,r:[[1050,440],[1520,440],[1520,217],[1555,217]]},
- {s:7,x:1430,y:365,r:[[1085,470],[1220,470],[1220,412],[1345,412]]},
- {s:2,x:1450,y:590,r:[[1085,510],[1230,510],[1230,543],[1365,543]]},
- {s:4,x:1170,y:775,r:[[1020,565],[1020,650],[1085,650],[1085,728]]},
- {s:5,x:720,y:745,r:[[900,565],[900,650],[805,650],[805,698]]},
- {s:3,x:440,y:520,r:[[842,512],[700,512],[700,520],[610,520]]}].filter(n=>S[n.s]);
+ {s:0,x:460,y:330,r:[[850,462],[740,462],[740,345],[595,345]]},
+ {s:8,x:790,y:262,r:[[920,420],[920,312],[880,312],[880,288]]},
+ {s:1,x:1130,y:262,r:[[1000,420],[1000,332],[1050,332],[1050,290]]},
+ {s:6,x:1580,y:278,r:[[1055,428],[1055,385],[1240,385],[1240,296],[1445,296]]},
+ {s:7,x:1410,y:440,r:[[1095,478],[1190,478],[1190,452],[1272,452]]},
+ {s:2,x:1440,y:668,r:[[1095,505],[1215,505],[1215,668],[1300,668]]},
+ {s:4,x:1150,y:785,r:[[1020,565],[1020,650],[1060,650],[1060,756]]},
+ {s:5,x:810,y:730,r:[[900,565],[900,640],[882,640],[882,692]]},
+ {s:3,x:430,y:575,r:[[842,512],[700,512],[700,575],[585,575]]}].filter(n=>S[n.s]);
 const rp=(pts,r=16)=>{let d="M"+pts[0].join(" ");for(let i=1;i<pts.length-1;i++){const[a,b,c]=[pts[i-1],pts[i],pts[i+1]],l1=Math.hypot(b[0]-a[0],b[1]-a[1]),l2=Math.hypot(c[0]-b[0],c[1]-b[1]),k1=Math.min(r,l1/2)/l1,k2=Math.min(r,l2/2)/l2;d+=` L${(b[0]-(b[0]-a[0])*k1).toFixed(1)} ${(b[1]-(b[1]-a[1])*k1).toFixed(1)} Q${b[0]} ${b[1]} ${(b[0]+(c[0]-b[0])*k2).toFixed(1)} ${(b[1]+(c[1]-b[1])*k2).toFixed(1)}`}return d+" L"+pts[pts.length-1].join(" ")};
 const R=([x,y])=>[x,y];
 const wires=NODES.map((n,i)=>{const d=(.15+i*.1).toFixed(2)+"s",p=rp(n.r),e=n.r[n.r.length-1];return`<g style="--d:${d}"><path class="w0" d="${p}"/><path class="w1" pathLength="1" d="${p}"/><path class="w2" pathLength="1" d="${p}"/><circle class="dn" cx="${e[0]}" cy="${e[1]}" r="9"/></g>`}).join("");
 const cards=NODES.map((n,i)=>`<div class="cw" style="--x:${n.x-H0[0]}px;--y:${n.y-H0[1]}px;--c:${(.15+i*.1+.85).toFixed(2)}s"><i class="a"></i><i class="b"></i><i class="c"></i></div>`).join("");
 const items=NODES.map((n,i)=>`<div class="it" style="--x:${n.x-H0[0]}px;--y:${n.y-H0[1]}px;--k:${(.15+i*.1+1.3).toFixed(2)}s;--f:${(i*.37%2).toFixed(2)}s;z-index:${Math.round(n.y)}"><div class="cmp"><div>${M(IM[n.s],C.services[n.s].inv?"inv":"")}</div></div><div class="lab">${S[n.s][1]}</div></div>`).join("");
 const orb=(D,sp)=>`<div class="ob" style="--D:${D}px;--sp:${sp}s"><i></i></div>`;
-st.innerHTML=`<div class="sa" id="sa"><div class="ly">${orb(760,16)+orb(1040,24).replace("<i>","<i style=\"animation-direction:reverse\">")+orb(1340,34)}</div><div class="ly la"><svg class="wires" viewBox="0 0 1897 895">${wires}</svg><div class="sl s2" id="s2"></div><div class="sl s1" id="s1"></div>${cards}<div class="ib" id="ib"><svg class="pr3" viewBox="0 0 108 108" fill="none"><path d="M1 54V38A37 37 0 0 1 38 1H70A37 37 0 0 1 107 38V70A37 37 0 0 1 70 107H38A37 37 0 0 1 1 70Z" pathLength="100" stroke="#3fa9e0" stroke-opacity=".2" stroke-width="2"/><path id="arc" d="M1 54V38A37 37 0 0 1 38 1H70A37 37 0 0 1 107 38V70A37 37 0 0 1 70 107H38A37 37 0 0 1 1 70Z" pathLength="100" stroke="#7fd0ff" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="0 100" style="filter:drop-shadow(0 0 6px #3fa9e0)"/><path id="hd" d="M1 54V38A37 37 0 0 1 38 1H70A37 37 0 0 1 107 38V70A37 37 0 0 1 70 107H38A37 37 0 0 1 1 70Z" pathLength="100" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-dasharray="3 100" style="filter:drop-shadow(0 0 10px #7fd0ff)"/></svg><div class="fc" id="fc"></div><div class="ip" id="ip">${mk(["shield"])+mk(["ring","line"])+mk(["arc1"])+mk(["arc2"])+mk(["arc3"])}<i class="rip" id="rip"></i></div></div></div><div class="ly lb">${items}</div></div>`;
-function fit3(){const w=innerWidth,h=innerHeight,m=w<860;const s=m?w/1500:Math.min(w/1897,h/895)*.94;st.style.setProperty("--s",s.toFixed(3));$("#sa").style.top=m?"56%":"52%";window.__s3=s}
+st.innerHTML=`<div class="sa" id="sa"><div class="ly">${orb(820,16)+orb(1200,24).replace("<i>","<i style=\"animation-direction:reverse\">")+orb(1600,34)}</div><div class="ly la"><svg class="wires" viewBox="0 0 1897 895">${wires}</svg><div class="sl s2" id="s2"></div><div class="sl s1" id="s1"></div>${cards}<div class="ib" id="ib"><svg class="pr3" viewBox="0 0 108 108" fill="none"><path d="M1 54V38A37 37 0 0 1 38 1H70A37 37 0 0 1 107 38V70A37 37 0 0 1 70 107H38A37 37 0 0 1 1 70Z" pathLength="100" stroke="#3fa9e0" stroke-opacity=".2" stroke-width="2"/><path id="arc" d="M1 54V38A37 37 0 0 1 38 1H70A37 37 0 0 1 107 38V70A37 37 0 0 1 70 107H38A37 37 0 0 1 1 70Z" pathLength="100" stroke="#7fd0ff" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="0 100" style="filter:drop-shadow(0 0 6px #3fa9e0)"/><path id="hd" d="M1 54V38A37 37 0 0 1 38 1H70A37 37 0 0 1 107 38V70A37 37 0 0 1 70 107H38A37 37 0 0 1 1 70Z" pathLength="100" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-dasharray="3 100" style="filter:drop-shadow(0 0 10px #7fd0ff)"/></svg><div class="fc" id="fc"></div><div class="ip" id="ip">${mk(["shield"])+mk(["ring","line"])+mk(["arc1"])+mk(["arc2"])+mk(["arc3"])}<i class="rip" id="rip"></i></div></div></div><div class="ly lb">${items}</div></div>`;
+function fit3(){const w=innerWidth,h=innerHeight,m=w<860;const s=m?w/1500:Math.min(w/1897,h/895)*1.0;st.style.setProperty("--s",s.toFixed(3));$("#sa").style.top=m?"56%":"52%";window.__s3=s}
 fit3();addEventListener("resize",fit3);
 let tx=0,ty=0,cx=0,cy=0;addEventListener("mousemove",e=>{tx=e.clientX/innerWidth-.5;ty=e.clientY/innerHeight-.5});
 (function tilt(t){cx+=(tx-cx)*.06;cy+=(ty-cy)*.06;st.style.setProperty("--mx",(cx+(calm?0:Math.sin(t/3800)*.04)).toFixed(3));st.style.setProperty("--my",cy.toFixed(3));requestAnimationFrame(tilt)})(0);
