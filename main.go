@@ -476,7 +476,12 @@ func main() {
 	if err := os.MkdirAll(upDir, 0o755); err != nil {
 		log.Fatal(err)
 	}
-	secret = []byte(env("SESSION_SECRET", rnd(32)))
+	def := rnd(32)
+	if adminPass != "" {
+		d := sha256.Sum256([]byte("tf-session:" + adminPass))
+		def = hex.EncodeToString(d[:])
+	}
+	secret = []byte(env("SESSION_SECRET", def))
 	mime.AddExtensionType(".mp4", "video/mp4")
 	mime.AddExtensionType(".webm", "video/webm")
 
