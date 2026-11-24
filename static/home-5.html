@@ -225,6 +225,11 @@ body.i3 .top,body.i3 .chips,body.i3 .copy,body.i3 .wm,body.i3 .help,body.i3 #fr,
 .wm .cta{display:none!important}
 .help{background:#0a1a3ee6!important;border:1px solid #ffffff2e!important;color:#fff!important;backdrop-filter:blur(14px)}
 .help svg path:first-child{fill:#fff}.help a:last-child svg path{fill:#25d366!important}.help .dv{background:#ffffff33}.help small{color:#b9cde8}
+#st3 .wvs{position:absolute;left:50%;top:50%;width:88px;height:82px;margin:-41px 0 0 -44px;pointer-events:none}
+#st3 .wvs svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;opacity:0;transform-origin:50% 55%;filter:blur(1.6px) drop-shadow(0 0 8px #7fd0ff) drop-shadow(0 0 18px #3fa9e0)}
+#st3 .wvs path{fill:#7fd0ff22;stroke:#cfeeff;stroke-width:1.8;fill-rule:evenodd}
+body:not(.i3) #st3 .it .cmp,body:not(.i3) #st3 .it .lab{pointer-events:auto;cursor:pointer}
+body:not(.i3) #st3 .it:hover .cmp img,body:not(.i3) #st3 .it:hover .cmp svg{filter:brightness(1.18) drop-shadow(0 0 14px #7fd0ff)}
 @media(prefers-reduced-motion:reduce){.aurora::before{animation:none}}
 </style><script src="/defaults.js"></script>
 </head><body class="dots i3">
@@ -376,17 +381,18 @@ const rp=(pts,r=16)=>{let d="M"+pts[0].join(" ");for(let i=1;i<pts.length-1;i++)
 const R=([x,y])=>[x,y];
 const wires=NODES.map((n,i)=>{const d=(.15+i*.1).toFixed(2)+"s",p=rp(n.r),e=n.r[n.r.length-1];return`<g style="--d:${d}"><path class="w0" d="${p}"/><path class="w1" pathLength="1" d="${p}"/><path class="w2" pathLength="1" d="${p}"/><circle class="dn" cx="${e[0]}" cy="${e[1]}" r="9"/></g>`}).join("");
 const cards=NODES.map((n,i)=>`<div class="cw" style="--x:${n.x-H0[0]}px;--y:${n.y-H0[1]}px;--c:${(.15+i*.1+.85).toFixed(2)}s"><i class="a"></i><i class="b"></i><i class="c"></i></div>`).join("");
-const items=NODES.map((n,i)=>`<div class="it" style="--x:${n.x-H0[0]}px;--y:${n.y-H0[1]}px;--k:${(.15+i*.1+1.3).toFixed(2)}s;--f:${(i*.37%2).toFixed(2)}s;z-index:${Math.round(n.y)}"><div class="cmp"><div>${ICO[n.s]}</div></div><div class="lab">${S[n.s][1]}</div></div>`).join("");
+const items=NODES.map((n,i)=>`<div class="it" data-s="${n.s}" style="--x:${n.x-H0[0]}px;--y:${n.y-H0[1]}px;--k:${(.15+i*.1+1.3).toFixed(2)}s;--f:${(i*.37%2).toFixed(2)}s;z-index:${Math.round(n.y)}"><div class="cmp"><div>${ICO[n.s]}</div></div><div class="lab">${S[n.s][1]}</div></div>`).join("");
 
 const orb=(D,sp)=>`<div class="ob" style="--D:${D}px;--sp:${sp}s"><i></i></div>`;
-st.innerHTML=`<div class="sa" id="sa"><div class="ly">${orb(980,16)+orb(1420,24).replace("<i>","<i style=\"animation-direction:reverse\">")+orb(1860,34)}</div><div class="ly la"><svg class="wires" viewBox="0 0 1897 895">${wires}</svg><div class="sl s2" id="s2"></div><div class="sl s1" id="s1"></div>${cards}<div class="ib" id="ib"><svg class="pr3" viewBox="0 0 108 108" fill="none"><path d="M1 54V38A37 37 0 0 1 38 1H70A37 37 0 0 1 107 38V70A37 37 0 0 1 70 107H38A37 37 0 0 1 1 70Z" pathLength="100" stroke="#3fa9e0" stroke-opacity=".2" stroke-width="2"/><path id="arc" d="M1 54V38A37 37 0 0 1 38 1H70A37 37 0 0 1 107 38V70A37 37 0 0 1 70 107H38A37 37 0 0 1 1 70Z" pathLength="100" stroke="#7fd0ff" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="0 100" style="filter:drop-shadow(0 0 6px #3fa9e0)"/><path id="hd" d="M1 54V38A37 37 0 0 1 38 1H70A37 37 0 0 1 107 38V70A37 37 0 0 1 70 107H38A37 37 0 0 1 1 70Z" pathLength="100" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-dasharray="3 100" style="filter:drop-shadow(0 0 10px #7fd0ff)"/></svg><div class="fc" id="fc"></div><div class="ip" id="ip">${mk(["shield"])+mk(["ring","line"])+mk(["arc1"])+mk(["arc2"])+mk(["arc3"])}<i class="rip" id="rip"></i></div></div></div><div class="ly lb">${items}</div></div>`;
+st.innerHTML=`<div class="sa" id="sa"><div class="ly">${orb(980,16)+orb(1420,24).replace("<i>","<i style=\"animation-direction:reverse\">")+orb(1860,34)}</div><div class="ly la"><svg class="wires" viewBox="0 0 1897 895">${wires}</svg><div class="sl s2" id="s2"></div><div class="sl s1" id="s1"></div>${cards}<div class="ib" id="ib"><svg class="pr3" viewBox="0 0 108 108" fill="none"><path d="M1 54V38A37 37 0 0 1 38 1H70A37 37 0 0 1 107 38V70A37 37 0 0 1 70 107H38A37 37 0 0 1 1 70Z" pathLength="100" stroke="#3fa9e0" stroke-opacity=".2" stroke-width="2"/><path id="arc" d="M1 54V38A37 37 0 0 1 38 1H70A37 37 0 0 1 107 38V70A37 37 0 0 1 70 107H38A37 37 0 0 1 1 70Z" pathLength="100" stroke="#7fd0ff" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="0 100" style="filter:drop-shadow(0 0 6px #3fa9e0)"/><path id="hd" d="M1 54V38A37 37 0 0 1 38 1H70A37 37 0 0 1 107 38V70A37 37 0 0 1 70 107H38A37 37 0 0 1 1 70Z" pathLength="100" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-dasharray="3 100" style="filter:drop-shadow(0 0 10px #7fd0ff)"/></svg><div class="fc" id="fc"></div><div class="ip" id="ip">${mk(["shield"])+mk(["ring","line"])+mk(["arc1"])+mk(["arc2"])+mk(["arc3"])}</div><div class="wvs" id="wvs">${mk(["shield"])+mk(["shield"])+mk(["shield"])}</div></div></div><div class="ly lb">${items}</div></div>`;
 function fit3(){const w=innerWidth,h=innerHeight,m=w<860;const s=m?w/1500:Math.min(w/1897,h/895)*1.0;st.style.setProperty("--s",s.toFixed(3));$("#sa").style.top=m?"56%":"52%";window.__s3=s}
+st.addEventListener("click",e=>{const it=e.target.closest(".it");if(!it||document.body.classList.contains("i3"))return;const i=+it.dataset.s;Promise.resolve(go("services")).then(()=>setTimeout(()=>{const r=sh.querySelectorAll(".rw")[i];r&&r.scrollIntoView({behavior:"smooth",block:"center"})},350))});
 fit3();addEventListener("resize",fit3);
 let tx=0,ty=0,cx=0,cy=0;addEventListener("mousemove",e=>{tx=e.clientX/innerWidth-.5;ty=e.clientY/innerHeight-.5});
 (function tilt(t){cx+=(tx-cx)*.06;cy+=(ty-cy)*.06;st.style.setProperty("--mx",(cx+(calm?0:Math.sin(t/3800)*.04)).toFixed(3));st.style.setProperty("--my",cy.toFixed(3));requestAnimationFrame(tilt)})(0);
 
 
-(function(){const arc=$("#arc"),hd=$("#hd"),ib=$("#ib"),fc=$("#fc"),lay=[...document.querySelectorAll("#ip>svg")],rip=$("#rip"),s1=$("#s1"),s2=$("#s2"),pr=ib.querySelector(".pr3"),timers=[],anims=[];let done=false;
+(function(){const arc=$("#arc"),hd=$("#hd"),ib=$("#ib"),fc=$("#fc"),lay=[...document.querySelectorAll("#ip>svg")],wvs=$("#wvs"),s1=$("#s1"),s2=$("#s2"),pr=ib.querySelector(".pr3"),timers=[],anims=[];let done=false;
 const f0=Math.min(3.2,Math.max(1,.62/(window.__s3||.75))),Sc=k=>`scale(${(k*f0).toFixed(3)})`;
 const at=(ms,fn)=>timers.push(setTimeout(fn,ms)),an=(el,kf,o)=>{const a=el.animate(kf,{fill:"forwards",...o});anims.push(a);return a};
 const FIN="translateY(0px) rotateX(50deg) rotateZ(45deg) scale(1.35)";
@@ -402,9 +408,8 @@ st.addEventListener("click",()=>{});document.addEventListener("click",()=>{if(!d
 at(300,()=>{const t0=performance.now(),D=1700;(function f(t){if(done)return;const k=Math.max(0,Math.min((t-t0)/D,1)),p=100*(k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2);arc.style.strokeDasharray=p+" 100";hd.style.strokeDashoffset=-Math.max(p-3,0);hd.style.opacity=p>0&&p<100?1:0;if(k<1)requestAnimationFrame(f)})(t0);
  an(ib,[{transform:Sc(1)},{transform:Sc(1.5)}],{duration:4800,easing:"ease-in-out"})});
 // 1 shield drawn top-left -> right with glow
-const MK="linear-gradient(105deg,#000 0%,#000 48%,transparent 52%)";
-lay[0].style.webkitMaskImage=lay[0].style.maskImage=MK;lay[0].style.webkitMaskSize=lay[0].style.maskSize="300% 100%";
-at(1500,()=>{lay[0].style.opacity=1;an(lay[0],[{webkitMaskPosition:"80% 0",maskPosition:"80% 0",filter:"drop-shadow(0 0 16px #7fd0ff) brightness(1.7)"},{webkitMaskPosition:"20% 0",maskPosition:"20% 0",filter:"drop-shadow(0 0 8px #3fa9e0) brightness(1.05)"}],{duration:1500,easing:"cubic-bezier(.4,0,.3,1)"})});
+const mkc=d=>{const m=`conic-gradient(from 225deg at 50% 52%,#000 0deg,#000 ${Math.max(d-12,0)}deg,transparent ${d}deg,transparent 360deg)`;lay[0].style.webkitMaskImage=lay[0].style.maskImage=m};mkc(0);
+at(1500,()=>{lay[0].style.opacity=1;an(lay[0],[{filter:"drop-shadow(0 0 16px #7fd0ff) brightness(1.7)"},{filter:"drop-shadow(0 0 8px #3fa9e0) brightness(1.05)"}],{duration:1600,easing:"ease-out"});const t0=performance.now();(function f(t){if(done)return;const k=Math.min((t-t0)/1500,1),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;mkc(e*372);if(k<1)requestAnimationFrame(f);else lay[0].style.webkitMaskImage=lay[0].style.maskImage="none"})(t0)});
 // 2 power button fades in
 at(3200,()=>an(lay[1],[{opacity:0,filter:"drop-shadow(0 0 20px #7fd0ff) brightness(2)"},{opacity:1,filter:"drop-shadow(0 0 7px #3fa9e0) brightness(1)"}],{duration:650,easing:"ease-out"}));
 // 3 signal arcs grow out of the power button, small -> big
@@ -414,7 +419,7 @@ at(5500,()=>{an(ib,[{transform:Sc(1.5)},{transform:Sc(1.36),offset:.3},{transfor
  an(lay[1],[{filter:"drop-shadow(0 0 7px #3fa9e0) brightness(1)"},{filter:"drop-shadow(0 0 26px #bfe8ff) brightness(2.2)"},{filter:"drop-shadow(0 0 12px #7fd0ff) brightness(1.3)"}],{duration:800});
  lay.forEach((l,i)=>i!=1&&an(l,[{filter:"drop-shadow(0 0 7px #3fa9e0) brightness(1)"},{filter:"drop-shadow(0 0 20px #bfe8ff) brightness(1.7)",offset:.5},{filter:"drop-shadow(0 0 10px #7fd0ff) brightness(1.2)"}],{duration:900}));
  an(ib,[{boxShadow:"0 0 70px #3fa9e044"},{boxShadow:"0 0 120px #7fd0ffcc",offset:.5},{boxShadow:"0 0 60px #3fa9e099"}],{duration:900});
- rip.animate([{opacity:.95,transform:"translate(-50%,-50%) scale(.3)"},{opacity:0,transform:"translate(-50%,-50%) scale(9)"}],{duration:1100,easing:"ease-out"})});
+ [...wvs.children].forEach((w,i)=>w.animate([{opacity:.95,transform:"scale(1)"},{opacity:.5,offset:.4},{opacity:0,transform:"scale(3.6)"}],{duration:1500,delay:i*280,easing:"ease-out"}))});
 // 5 pull up, then lie on the ground as the centre card
 at(6500,()=>{an(ib,[{transform:Sc(1.5)+" translateY(0px) rotateX(0deg) rotateZ(0deg)"},{transform:Sc(1.62)+" translateY(-60px) rotateX(0deg) rotateZ(0deg)",offset:.36},{transform:"translateY(0px) rotateX(50deg) rotateZ(45deg) scale(1.5)"}],{duration:1500,easing:"cubic-bezier(.5,0,.2,1)"});
  an(ib,[{borderRadius:"52px",borderColor:"#ffffff3a"},{borderRadius:"26px",borderColor:"#cfeeff"}],{duration:1500});
