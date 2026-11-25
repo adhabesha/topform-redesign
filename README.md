@@ -11,5 +11,6 @@ Set these in Render > your service > Environment:
 Without the GitHub variables, edits and uploads work but are lost when Render restarts the server.
 With them, every save/upload is committed to the repo (data/content.json, data/uploads/*) and the site redeploys itself.
 
+New homepage: static/home-9.html at /home-9 (glass-panel hero, spinning shield, sky slideshow). Slideshow images: Admin > Images & media > "Home page hero".
 Files: main.go (server, admin API, uploads), static/index.html (site), static/admin.html (admin), static/defaults.js (default content),
 static/img (built-in images), data/ (saved content + uploads)
