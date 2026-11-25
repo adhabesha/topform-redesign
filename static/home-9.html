@@ -47,7 +47,7 @@ nav.m>a:hover,nav.m>.dd:hover>a{color:var(--btn)}
 .trk i{flex:none;width:100vw;height:100%;background-size:cover;background-position:center}
 @keyframes slide{from{transform:translate3d(-50%,0,0)}to{transform:translate3d(0,0,0)}}
 .frost{position:absolute;inset:0;z-index:1;pointer-events:none}
-.frost .fz{position:absolute;inset:0;clip-path:url(#fzc);-webkit-clip-path:url(#fzc);backdrop-filter:blur(14px) saturate(1.05);-webkit-backdrop-filter:blur(14px) saturate(1.05);background:linear-gradient(165deg,#ffffff6b,#dfe9f573 45%,#eaf1f9a6)}
+.frost .fz{position:absolute;inset:0;clip-path:url(#fzc);-webkit-clip-path:url(#fzc);backdrop-filter:blur(14px) saturate(1.05);-webkit-backdrop-filter:blur(14px) saturate(1.05);background:linear-gradient(160deg,#7d92b0bb,#a3b4cbaa 55%,#c8d4e4b8)}
 .frost svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .frost .ln{fill:none;stroke:#fff;stroke-linecap:round;vector-effect:non-scaling-stroke}
 .vfade{position:absolute;inset:auto 0 0;height:22%;z-index:2;background:linear-gradient(#fff0,var(--paper));pointer-events:none}
@@ -268,7 +268,7 @@ cl=cl.map(c=>Array.isArray(c)?{i:c[0],t:"Hardware & Office IT",img:S[c[1]].img}:
 const cell=c=>`<a class="cell" href="#svc-${c.i}" title="${esc(c.t)}"><img src="${esc(c.img)}" alt=""><span>${esc(c.t)}</span></a>`;
 const L=8;let lay="";for(let k=0;k<14;k++)lay+=`<img src="/img/shield.png" alt="" style="--i:${k}" ${k&&k<13?'class="mid"':""}>`;
 const PATH="M30,0H372C405,0 418,66 462,66H638C682,66 695,0 728,0H1070Q1100,0 1100,30V370Q1100,400 1070,400H728C695,400 682,334 638,334H462C418,334 405,400 372,400H30Q0,400 0,370V30Q0,0 30,0Z";
-const FZT="M0,.58C.08,.36 .26,.2 .4,.1C.48,.04 .53,0 .58,0C.68,0 .84,.12 .93,.2C.96,.23 .98,.25 1,.27",FZ=FZT+"L1,1L0,1";
+const FZT="M0,.3C.06,.2 .2,.1 .36,.05C.46,.02 .54,0 .62,0",FZ=FZT+"L0,0";
 const slides=(C.hero_slides||[]).filter(Boolean).length?C.hero_slides.filter(Boolean):DEF.hero_slides;
 
 const BL=p=>{const b=(C.blocks&&C.blocks[p])||[];return b.length?`<div class="wrap">${b.map(x=>x.type=="text"?`<section class="blk"><h2>${esc(x.title)}</h2><p>${esc(x.body)}</p></section>`:x.type=="media"?`<figure class="blk">${M(x.url)}</figure>`:x.type=="gallery"?`<section class="blk">${x.title?`<h2>${esc(x.title)}</h2>`:""}<div class="gal">${(x.urls||[]).map(M).join("")}</div></section>`:x.type=="cta"?`<section class="blk"><a class="cta" href="#${esc(x.target||"contact")}">${esc(x.label)}</a></section>`:"").join("")}</div>`:""};
