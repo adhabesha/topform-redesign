@@ -43,10 +43,14 @@ nav.m>a:hover,nav.m>.dd:hover>a{color:var(--btn)}
 /* ---------- hero ---------- */
 #hero{position:relative;min-height:max(100svh,760px);display:grid;align-items:center;overflow:hidden;background:#9cc4ee}
 .sky{position:absolute;inset:0;overflow:hidden}
-.sky i{position:absolute;inset:-3% -5%;background-size:cover;background-position:center;opacity:0;transition:opacity 2.6s ease;will-change:transform,opacity}
-.sky i.on{opacity:1}.sky i.on,.sky i.prev{animation:drift 20s linear forwards}
-@keyframes drift{from{transform:translate3d(calc(var(--d,1)*-2.4%),0,0) scale(1.05)}to{transform:translate3d(calc(var(--d,1)*2.4%),0,0) scale(1.05)}}
-.sky::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#ffffff59,#ffffff00 58%),linear-gradient(to bottom,#fff0 66%,var(--paper))}
+.trk{display:flex;height:100%;width:max-content;animation:slide var(--dur,110s) linear infinite;will-change:transform}
+.trk i{flex:none;width:100vw;height:100%;background-size:cover;background-position:center}
+@keyframes slide{from{transform:translate3d(-50%,0,0)}to{transform:translate3d(0,0,0)}}
+.frost{position:absolute;inset:0;z-index:1;pointer-events:none}
+.frost .fz{position:absolute;inset:0;clip-path:url(#fzc);-webkit-clip-path:url(#fzc);backdrop-filter:blur(14px) saturate(1.05);-webkit-backdrop-filter:blur(14px) saturate(1.05);background:linear-gradient(165deg,#ffffff6b,#dfe9f573 45%,#eaf1f9a6)}
+.frost svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.frost .ln{fill:none;stroke:#fff;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.vfade{position:absolute;inset:auto 0 0;height:22%;z-index:2;background:linear-gradient(#fff0,var(--paper));pointer-events:none}
 .hin{position:relative;z-index:3;width:100%;max-width:1920px;margin:auto;padding:118px clamp(24px,7.5vw,150px) 96px;display:grid;grid-template-columns:minmax(300px,24vw) minmax(0,1fr);gap:clamp(28px,2.6vw,52px);align-items:center}
 .hl .ey{font-weight:700;font-size:.9rem;text-transform:uppercase;letter-spacing:.015em;margin-bottom:26px;max-width:340px;line-height:1.35}
 .hl h1{font-weight:600;font-size:clamp(2.4rem,2.55vw + 1.1rem,3.9rem);line-height:1.04;letter-spacing:-.022em}
@@ -90,7 +94,7 @@ nav.m>a:hover,nav.m>.dd:hover>a{color:var(--btn)}
  .cell img{height:40px}
  .spin img{transform:translateZ(calc((var(--i) - 6.5)*1px))}
 }
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.spin{animation:none}.sky i.on,.sky i.prev{animation:none}*{transition-duration:.01s!important}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.spin{animation:none}.trk{animation:none}*{transition-duration:.01s!important}}
 
 /* floating actions */
 .fab{position:fixed;right:clamp(14px,1.6vw,28px);bottom:clamp(14px,2.6vw,40px);z-index:55;display:grid;gap:9px;justify-items:end}
@@ -118,25 +122,56 @@ nav.m>a:hover,nav.m>.dd:hover>a{color:var(--btn)}
 @keyframes fl{50%{translate:0 -12px}}
 @media(max-width:860px){.ask{grid-template-columns:1fr}.orb{width:min(70vw,340px)}}
 
-/* ---------- services ---------- */
-#services{padding:clamp(80px,9vw,140px) 0;background:#fff}
-.sh{text-align:center;display:grid;justify-items:center}
-.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2vw,28px);margin-top:clamp(40px,5vw,70px)}
-.sc2{position:relative;display:flex;flex-direction:column;background:linear-gradient(#fff,#f4f8fd);border:1px solid #0b1f4b17;border-radius:20px;overflow:hidden;transition:transform .35s,box-shadow .35s}
-.sc2:hover{transform:translateY(-6px);box-shadow:0 26px 54px #0b1f4b24}
-.sc2:target{box-shadow:0 0 0 3px var(--blue),0 26px 54px #17ade840}
-.sc2 .im{height:210px;display:grid;place-items:center;padding:28px;background:radial-gradient(circle at 50% 60%,#dff1ff,#eef6fd 70%)}
-.sc2 .im img{height:150px;width:auto;max-width:72%;object-fit:contain}
-.sc2 .tx{padding:26px 28px 30px;display:flex;flex-direction:column;gap:12px;flex:1}
-.sc2 h3{font-weight:700;font-size:1.28rem;line-height:1.2;letter-spacing:-.01em}
-.sc2 p{color:var(--mute);line-height:1.6;font-size:.98rem;flex:1}
-.sc2 .go{font-weight:800;font-size:.86rem;text-transform:uppercase;color:var(--btn);display:inline-flex;gap:10px;align-items:center;margin-top:6px}
-.sc2 .go i{font-style:normal;transition:translate .3s}.sc2 .go:hover i{translate:6px 0}
-.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:clamp(50px,6vw,84px);max-width:1100px;margin-inline:auto}
-.chips span{padding:10px 18px;border-radius:999px;background:var(--paper);border:1px solid #0b1f4b14;font-weight:600;font-size:.92rem;color:#243253}
-.chips-t{text-align:center;margin-top:clamp(50px,6vw,84px);font-size:1.05rem;font-weight:700;color:var(--mute)}
-.chips-t+.chips{margin-top:20px}
-@media(max-width:1000px){.sg{grid-template-columns:1fr 1fr}}@media(max-width:620px){.sg{grid-template-columns:1fr}}
+/* ---------- video / about ---------- */
+#vid{background:linear-gradient(var(--paper),#e9eff7);padding:clamp(40px,5vw,80px) 0 clamp(60px,7vw,110px)}
+.vg{display:grid;grid-template-columns:1.08fr 1fr;gap:clamp(30px,5vw,90px);align-items:center}
+.vb{position:relative;aspect-ratio:16/9;border-radius:22px;overflow:hidden;background:#06163f;box-shadow:0 30px 70px #0b1f4b40;border:1px solid #ffffffaa}
+.vb>img,.vb>video,.vb>iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0}
+.vb .pl{position:absolute;left:50%;top:50%;translate:-50% -50%;width:84px;height:84px;border-radius:50%;background:#ffffffee;display:grid;place-items:center;box-shadow:0 12px 40px #0008;transition:transform .3s}
+.vb .pl:hover{transform:scale(1.08)}.vb .pl::after{content:"";border-left:24px solid var(--btn);border-top:15px solid transparent;border-bottom:15px solid transparent;margin-left:7px}
+.vt .lb{font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:#6d7a94;font-weight:600}
+.vt h2{font-weight:600;font-size:clamp(1.7rem,2.3vw,2.4rem);line-height:1.12;letter-spacing:-.015em;margin:16px 0 18px;color:#1d2c4d}
+.vt p{color:var(--mute);line-height:1.7}.vt p b{display:block;margin-top:16px;color:#1d2c4d;font-weight:700}
+.vt .cta{height:52px;padding:0 28px;margin-top:30px;font-size:.92rem}
+@media(max-width:900px){.vg{grid-template-columns:1fr}}
+
+/* ---------- services (photo tiles, two staggered columns) ---------- */
+#services{padding:clamp(70px,8vw,130px) 0;background:linear-gradient(#e9eff7,#fff 30%)}
+.sv{display:grid;grid-template-columns:minmax(250px,.75fr) 2fr;gap:clamp(30px,5vw,90px);align-items:start}
+.svh{position:sticky;top:120px}
+.svh .h2{font-weight:500}
+.chips-t{margin-top:38px;font-size:.95rem;font-weight:700;color:var(--mute)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chips span{padding:8px 14px;border-radius:999px;background:#fff;border:1px solid #0b1f4b14;font-weight:600;font-size:.82rem;color:#243253}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,1.8vw,26px)}
+.col{display:grid;gap:clamp(14px,1.8vw,26px);align-content:start;will-change:transform}
+.col.b{padding-top:clamp(60px,8vw,130px)}
+.tile{position:relative;display:flex;flex-direction:column;justify-content:flex-end;aspect-ratio:1.18;border-radius:20px;overflow:hidden;color:#fff;isolation:isolate;border:1px solid #ffffff80;box-shadow:0 22px 50px #0b1f4b2b;background:radial-gradient(circle at 72% 32%,hsl(var(--h) 72% 40%),hsl(var(--h) 66% 14%) 74%);transition:transform .4s,box-shadow .4s}
+.tile:hover,.tile:focus-visible{transform:translateY(-5px);box-shadow:0 32px 64px #0b1f4b45}
+.tile:target{box-shadow:0 0 0 3px var(--blue),0 32px 64px #17ade855}
+.tile .ph{position:absolute;inset:0;z-index:-2;background-size:cover;background-position:center;transition:transform .8s}
+.tile:hover .ph{transform:scale(1.06)}
+.tile .ic{position:absolute;z-index:-1;right:7%;top:9%;height:50%;width:auto;max-width:62%;object-fit:contain;filter:drop-shadow(0 16px 20px #0007);transition:transform .6s}
+.tile .ic.inv{filter:brightness(0) invert(1) drop-shadow(0 10px 16px #0006)}
+.tile:hover .ic{transform:scale(1.07) rotate(-2deg)}
+.tile::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,#04103ad9 6%,#04103a66 40%,#04103a00 66%)}
+.tile .tt{padding:0 clamp(16px,1.8vw,26px) clamp(16px,1.8vw,24px)}
+.tile h3{font-weight:600;font-size:clamp(1.25rem,1.85vw,1.9rem);line-height:1.08;letter-spacing:-.015em;text-shadow:0 2px 16px #0007}
+.tile p{font-size:.92rem;line-height:1.5;color:#ffffffd9;max-height:0;opacity:0;overflow:hidden;transition:max-height .45s,opacity .4s,margin .4s}
+.tile:hover p,.tile:focus-visible p{max-height:120px;opacity:1;margin-top:10px}
+.tile .go{position:absolute;right:16px;top:16px;width:38px;height:38px;border-radius:50%;background:#ffffffd9;color:var(--btn);display:grid;place-items:center;font-size:1.1rem;font-weight:800;transition:transform .3s,background .3s}
+.tile:hover .go{transform:rotate(-45deg);background:#fff}
+@media(max-width:1000px){.sv{grid-template-columns:1fr}.svh{position:static}}
+@media(max-width:620px){.tile{aspect-ratio:1;border-radius:16px}.tile p{display:none}.tile .go{display:none}.col.b{padding-top:44px}.tile h3{font-size:1.08rem}}
+
+/* ---------- cta band ---------- */
+#band{background:#fff;padding:0 0 clamp(60px,7vw,100px)}
+.bd{display:grid;grid-template-columns:auto 1fr auto;gap:clamp(20px,4vw,60px);align-items:center;border-radius:26px;padding:clamp(24px,3.4vw,46px) clamp(24px,4vw,64px);color:#fff;background:radial-gradient(circle at 12% 50%,#1b6fe0,#0a2f78 45%,#061a4d);box-shadow:0 30px 70px #0b1f4b40;overflow:hidden}
+.bd img{height:clamp(90px,10vw,150px);filter:drop-shadow(0 0 30px #6fc9ff)}
+.bd small{font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;color:#9fd4ff;font-weight:600}
+.bd h2{font-weight:500;font-size:clamp(1.5rem,2.4vw,2.3rem);line-height:1.12;margin-top:10px;max-width:620px}
+.bd .cta{margin:0;background:#17ade8;height:54px;white-space:nowrap}.bd .cta:hover{background:#fff;color:var(--navy)}
+@media(max-width:820px){.bd{grid-template-columns:1fr;text-align:center;justify-items:center}}
 
 /* ---------- about + stats ---------- */
 #about{background:linear-gradient(#fff,var(--paper));padding:clamp(70px,8vw,130px) 0 clamp(70px,8vw,120px)}
@@ -233,15 +268,18 @@ cl=cl.map(c=>Array.isArray(c)?{i:c[0],t:"Hardware & Office IT",img:S[c[1]].img}:
 const cell=c=>`<a class="cell" href="#svc-${c.i}" title="${esc(c.t)}"><img src="${esc(c.img)}" alt=""><span>${esc(c.t)}</span></a>`;
 const L=8;let lay="";for(let k=0;k<14;k++)lay+=`<img src="/img/shield.png" alt="" style="--i:${k}" ${k&&k<13?'class="mid"':""}>`;
 const PATH="M30,0H372C405,0 418,66 462,66H638C682,66 695,0 728,0H1070Q1100,0 1100,30V370Q1100,400 1070,400H728C695,400 682,334 638,334H462C418,334 405,400 372,400H30Q0,400 0,370V30Q0,0 30,0Z";
-const slides=(C.hero_slides&&C.hero_slides.length?C.hero_slides:DEF.hero_slides);
+const FZT="M0,.58C.08,.36 .26,.2 .4,.1C.48,.04 .53,0 .58,0C.68,0 .84,.12 .93,.2C.96,.23 .98,.25 1,.27",FZ=FZT+"L1,1L0,1";
+const slides=(C.hero_slides||[]).filter(Boolean).length?C.hero_slides.filter(Boolean):DEF.hero_slides;
 
 const BL=p=>{const b=(C.blocks&&C.blocks[p])||[];return b.length?`<div class="wrap">${b.map(x=>x.type=="text"?`<section class="blk"><h2>${esc(x.title)}</h2><p>${esc(x.body)}</p></section>`:x.type=="media"?`<figure class="blk">${M(x.url)}</figure>`:x.type=="gallery"?`<section class="blk">${x.title?`<h2>${esc(x.title)}</h2>`:""}<div class="gal">${(x.urls||[]).map(M).join("")}</div></section>`:x.type=="cta"?`<section class="blk"><a class="cta" href="#${esc(x.target||"contact")}">${esc(x.label)}</a></section>`:"").join("")}</div>`:""};
 const why=C.why.map((w,i)=>`<article class="${i?"":"on"}"><h3>${esc(w.t)}</h3><p>${esc(w.d)}</p></article>`).join("");
 const clients=C.clients.map(u=>`<div class="cc">${M(u)}</div>`).join("");
 const ask=(C.ask||[]).map(a=>`<li><a href="${esc(a.href||"#contact")}"><span>${esc(a.q)}</span><i>›</i></a></li>`).join("");
 
+const tile=(s,i)=>{const ph=s.bg&&!isV(s.bg)?`<div class="ph" style="background-image:url('${encodeURI(s.bg).replace(/'/g,"%27")}')"></div>`:"",ic=ph?"":`<img class="ic ${s.inv?"inv":""}" src="${esc(s.img)}" alt="">`;return `<a class="tile" id="svc-${i}" href="#contact" data-s="${esc(s.title)}" style="--h:${205+(i%5)*6}">${ph}${ic}<span class="go">→</span><div class="tt"><h3>${esc(s.title)}</h3><p>${esc(s.desc)}</p></div></a>`};
 $("#top").innerHTML=`
-<section id="hero"><div class="sky">${slides.map(()=>"<i></i>").join("")}</div>
+<section id="hero"><div class="sky"><div class="trk" style="--dur:${slides.length*22}s">${[...slides,...slides].map(u=>`<i style="background-image:url('${encodeURI(u)}')"></i>`).join("")}</div></div>
+ <div class="frost" aria-hidden="true"><div class="fz"></div><svg viewBox="0 0 1 1" preserveAspectRatio="none"><defs><clipPath id="fzc" clipPathUnits="objectBoundingBox"><path d="${FZ}Z"/></clipPath><filter id="fgl" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="3"/></filter></defs><path class="ln" d="${FZT}" stroke-width="9" stroke-opacity=".5" filter="url(#fgl)"/><path class="ln" d="${FZT}" stroke-width="2.5"/><path class="ln" d="${FZT}" stroke-width="1.5" stroke-opacity=".6" transform="translate(0 .018)"/></svg></div><div class="vfade"></div>
  <div class="hin">
   <div class="hl"><div class="ey">${X("loader_tagline")}</div><h1>${X("hero_title")}</h1><p>${X("hero_sub")}</p><a class="cta" href="#contact">${X("hero_cta")}</a></div>
   <div class="panel">
@@ -252,11 +290,15 @@ $("#top").innerHTML=`
   </div>
  </div></section>
 
+<section id="vid"><div class="wrap vg"><div class="vb" id="vb"><img src="${esc(C.video&&C.video.poster||"/img/video-poster.jpg")}" alt="">${(C.video&&(C.video.src||C.video.url))?`<button class="pl" id="plb" aria-label="Play video"></button>`:""}</div>
+ <div class="vt"><div class="lb">${X("video_tag")}</div><h2>${X("video_title")}</h2><p>${X("video_p")}<b>${X("video_b")}</b></p><a class="cta" href="#about">${X("video_btn")}</a></div></div></section>
+
 <section id="ask"><div class="wrap ask"><div><h2 class="h2">${X("ask_title")}</h2><p class="lead">${X("ask_sub")}</p><ul class="ql">${ask}</ul></div><div class="orb"><img src="/img/shield.png" alt="Topform shield"></div></div></section>
 
-<section id="services"><div class="wrap"><div class="sh"><h2 class="h2">${X("svc_tag")}</h2><p class="lead">${X("svc_sub")}</p></div>
- <div class="sg">${S.map((s,i)=>`<article class="sc2" id="svc-${i}"><div class="im">${M(s.img)}</div><div class="tx"><h3>${esc(s.title)}</h3><p>${esc(s.desc)}</p><a class="go" href="#contact" data-s="${esc(s.title)}">${X("svc_more")} <i>→</i></a></div></article>`).join("")}</div>
- <p class="chips-t">${X("tags_title")}</p><div class="chips">${C.tags.map(t=>`<span>${esc(t)}</span>`).join("")}</div></div>${BL("services")}</section>
+<section id="services"><div class="wrap sv"><div class="svh"><h2 class="h2">${X("svc_tag")}</h2><p class="lead">${X("svc_sub")}</p><p class="chips-t">${X("tags_title")}</p><div class="chips">${C.tags.slice(0,10).map(t=>`<span>${esc(t)}</span>`).join("")}</div></div>
+ <div class="cols"><div class="col a" id="ca">${S.map((s,i)=>i%2?"":tile(s,i)).join("")}</div><div class="col b" id="cb">${S.map((s,i)=>i%2?tile(s,i):"").join("")}</div></div></div>${BL("services")}</section>
+
+<section id="band"><div class="wrap"><div class="bd"><img src="/img/shield.png" alt=""><div><small>${X("svc_since")}</small><h2>${X("svc_cta")}</h2></div><a class="cta" href="#contact">${X("band_btn")}</a></div></div></section>
 
 <section id="about"><div class="wrap"><div class="ab"><h2 class="h2">${X("about_title")}</h2><div><p>${X("about_p")}</p><p>${X("about_stmt")}</p></div></div>
  <div class="st"><div><b data-c="${yr-since}" data-x="+">0</b><span>Years serving the UAE</span></div><div><b data-c="${C.branches.length}">0</b><span>Branches</span></div><div><b data-c="${N}">0</b><span>Services under one roof</span></div></div></div>${BL("about")}</section>
@@ -281,10 +323,13 @@ $("#top").innerHTML=`
  <div><b>Visit</b><span>${X("office")}</span></div></div>
  <div class="cp"><span>© ${yr} ${X("footer")}</span><span>Secure · Connect · Power</span></div></div></footer>`;
 
-// sky slideshow
-const sk=$$(".sky i");sk.forEach((e,i)=>{const u=slides[i];if(i==0)e.style.backgroundImage=`url("${encodeURI(u)}")`;else{const im=new Image();im.onload=()=>e.style.backgroundImage=`url("${encodeURI(u)}")`;im.src=u}});
-let k=-1;function go(n){const p=sk[k];k=n%sk.length;const c=sk[k];c.style.setProperty("--d",k%2?-1:1);c.classList.remove("prev");c.classList.add("on");if(p&&p!==c){p.classList.remove("on");p.classList.add("prev");setTimeout(()=>p.classList.remove("prev"),3000)}}
-go(0);if(sk.length>1&&!calm)setInterval(()=>go(k+1),9000);
+// video play
+const plb=$("#plb");if(plb)plb.onclick=()=>{const v=C.video,u=v.src||v.url,vb=$("#vb");let m=u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/),vm=u.match(/vimeo\.com\/(\d+)/);
+ vb.innerHTML=m?`<iframe src="https://www.youtube.com/embed/${m[1]}?autoplay=1&rel=0" allow="autoplay;fullscreen" allowfullscreen></iframe>`:vm?`<iframe src="https://player.vimeo.com/video/${vm[1]}?autoplay=1" allow="autoplay;fullscreen" allowfullscreen></iframe>`:`<video src="${esc(u)}" controls autoplay playsinline></video>`};
+// service columns: gentle opposite drift on scroll
+const ca=$("#ca"),cb=$("#cb"),sv=$("#services");let tk=0;
+function par(){tk=0;if(calm||innerWidth<1000){ca.style.transform=cb.style.transform="";return}const r=sv.getBoundingClientRect(),p=Math.max(-1,Math.min(1,(r.top+r.height/2-innerHeight/2)/innerHeight));ca.style.transform=`translateY(${(p*-46).toFixed(1)}px)`;cb.style.transform=`translateY(${(p*46).toFixed(1)}px)`}
+addEventListener("scroll",()=>{if(!tk){tk=1;requestAnimationFrame(par)}},{passive:true});addEventListener("resize",par);par();
 
 // header + menu
 const hd=$("#hd"),nv=$("#nv"),bg=$("#bg");
@@ -303,7 +348,7 @@ const rst=()=>{clearInterval(au);if(!calm&&sl.length>1)au=setInterval(()=>show(s
 db.forEach(b=>b.onclick=()=>{show(+b.dataset.n);rst()});
 
 // service button pre-fills the enquiry subject
-$$(".sc2 .go").forEach(a=>a.addEventListener("click",()=>{const f=$("#fm [name=Subject]");if(f)f.value=a.dataset.s}));
+$$(".tile").forEach(a=>a.addEventListener("click",()=>{const f=$("#fm [name=Subject]");if(f)f.value=a.dataset.s}));
 
 // branches
 document.addEventListener("click",e=>{const b=e.target.closest(".tb button");if(b){$$(".tb button").forEach(x=>x.classList.remove("on"));b.classList.add("on");$("#branches iframe").src="https://www.google.com/maps?q="+encodeURIComponent(b.dataset.q)+"&output=embed"}});

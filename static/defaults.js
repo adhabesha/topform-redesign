@@ -19,6 +19,12 @@ window.DEFAULTS={
   "cl_title": "Trusted across the Emirates",
   "svc_more": "Discover",
   "why_tag": "Why choose us",
+  "video_tag": "About Topform Technologies",
+  "video_title": "One partner for security, networks and software",
+  "video_p": "From CCTV and door access to PABX, websites, custom software and mobile apps, Topform has designed, installed and supported IT systems for businesses across the UAE since 2010.",
+  "video_b": "Secure, connect and power your business with 100% result-oriented service.",
+  "video_btn": "Learn more",
+  "band_btn": "Get in touch",
   "about_tag": "About",
   "about_title": "And it's innovative IT solutions",
   "about_p": "Topform Technologies is considered to be world-class IT sales and services, website design and development, with hardware company founded in 2010. Our goal is to commit on delivering bespoke customer service, 100% result oriented services to our valued customers.",
@@ -57,8 +63,10 @@ window.DEFAULTS={
   "/img/sky1.jpg",
   "/img/sky2.jpg",
   "/img/sky3.jpg",
-  "/img/sky4.jpg"
+  "/img/sky4.jpg",
+  "/img/sky5.jpg"
  ],
+ "video": {"src": "", "url": "", "poster": "/img/video-poster.jpg"},
  "ask": [
   {"q": "What does Topform Technologies do?", "href": "#about"},
   {"q": "Which CCTV and door access system fits my business?", "href": "#svc-0"},
