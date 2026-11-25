@@ -57,7 +57,9 @@ window.DEFAULTS={
   "branches_tag": "Our branches",
   "branches_title": "Find us across the map",
   "branches_sub": "Visit our branches to find the nearest one to you.",
-  "footer": "Topform Technologies LLC · Dubai, UAE"
+  "footer": "Topform Technologies LLC · Dubai, UAE",
+  "stats_head": "Securing the future of your business with innovative IT solutions",
+  "stats_btn": "Request a quote"
  },
  "hero_slides": [
   "/img/sky1.jpg",
