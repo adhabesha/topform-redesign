@@ -138,7 +138,8 @@ window.DEFAULTS={
   },
   {
    "icon": "🏢",
-   "title": "Home & Office IT Solutions",
+   "pts": ["Server & Cloud Setup","WiFi Setup","Structured Cabling","Etisalat Approval","Desktop & Laptop Repair","Software & Printer Installation"],
+  "title": "Home & Office IT Solutions",
    "desc": "Industry-leading IT solutions across financial services, pharmaceutical, professional services, retail and hospitality.",
    "img": "/img/home.png",
    "bg": "",
