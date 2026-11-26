@@ -66,10 +66,10 @@ nav.m>a:hover,nav.m>.dd:hover>a{color:var(--btn)}
 .cell{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7cqw;padding:.8cqw .6cqw;text-align:center;border-radius:1.1cqw;border:1px solid #ffffff99;background:linear-gradient(160deg,#ffffff57,#ffffff1f);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);color:var(--ink);font-weight:800;text-transform:uppercase;line-height:1.12;font-size:clamp(9.5px,1.36cqw,15px);letter-spacing:.005em;transition:transform .3s,background .3s,box-shadow .3s,color .3s;overflow:hidden}
 .cell::before{content:"";position:absolute;inset:0;opacity:.5;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M0 0L100 100M100 0L0 100' stroke='white' stroke-width='1' stroke-dasharray='2 4' vector-effect='non-scaling-stroke' fill='none'/%3E%3C/svg%3E") center/100% 100%;pointer-events:none}
 .cell::after{content:"";position:absolute;left:7%;top:9%;width:13%;height:16%;border-left:1.5px solid #fff;border-top:1.5px solid #fff;opacity:.85;pointer-events:none}
-.cell img{position:relative;height:4.4cqw;width:auto;max-width:76%;object-fit:contain;transition:transform .35s}
+.cell img,.cell video{position:relative;height:4.4cqw;width:auto;max-width:76%;object-fit:contain;transition:transform .35s}
 .cell span{position:relative}
 .cell:hover,.cell:focus-visible{transform:translateY(-.4cqw);background:linear-gradient(160deg,#ffffffdd,#ffffff99);box-shadow:0 1.2cqw 2.4cqw #0b1f4b33;color:var(--btn)}
-.cell:hover img{transform:scale(1.1)}
+.cell:hover img,.cell:hover video{transform:scale(1.1)}
 .hub{position:absolute;left:50%;top:50%;width:28.5%;aspect-ratio:1;translate:-50% -50%;z-index:4;perspective:1500px;pointer-events:none}
 .halo{position:absolute;inset:-26%;background:radial-gradient(circle,#fffffff2 0,#a9defff0 24%,#6fc4f666 44%,#6fc4f600 68%)}
 .flr{position:absolute;left:14%;right:14%;bottom:-3%;height:6%;background:radial-gradient(#0b1f4b66,#0b1f4b00 70%);filter:blur(3px)}
@@ -91,7 +91,7 @@ nav.m>a:hover,nav.m>.dd:hover>a{color:var(--btn)}
  .wing{position:static;display:contents}
  .hub{position:relative;left:auto;top:auto;translate:none;order:-1;grid-column:1/-1;width:min(58vw,250px);margin:6px auto 12px}
  .cell{min-height:112px;font-size:12.5px;border-radius:14px;gap:8px;padding:10px}
- .cell img{height:40px}
+ .cell img,.cell video{height:40px}
  .spin img{transform:translateZ(calc((var(--i) - 6.5)*1px))}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.spin{animation:none}.trk{animation:none}*{transition-duration:.01s!important}}
@@ -165,7 +165,7 @@ body{background:#eceef1}
 .tile{position:relative;display:flex;flex-direction:column;justify-content:center;aspect-ratio:1.6;border-radius:16px;overflow:hidden;color:#fff;isolation:isolate;background:radial-gradient(circle at 76% 40%,hsl(var(--h) 72% 38%),hsl(var(--h) 66% 13%) 76%);--c:60px}
 .tile:hover,.tile:focus-visible{transform:translateY(-5px);box-shadow:0 26px 50px #0b1f4b40}
 .tile:target{outline:3px solid var(--blue);outline-offset:3px}
-.tile .ph{position:absolute;inset:0;z-index:-2;background-size:cover;background-position:center;transition:transform .9s var(--e)}
+.tile .ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;background-size:cover;background-position:center;transition:transform .9s var(--e)}
 .tile.in .ph{animation:zin 1.8s var(--e) backwards;animation-delay:var(--d,0s)}
 .tile:hover .ph{transform:scale(1.08)}
 .tile .ic{position:absolute;z-index:-1;right:7%;top:50%;translate:0 -50%;height:48%;width:auto;max-width:32%;object-fit:contain;filter:drop-shadow(0 16px 20px #0007);transition:transform .6s var(--e)}
@@ -311,8 +311,8 @@ $("#nv").innerHTML=`<a href="#top">Home</a><div class="dd"><a href="#services">S
 
 // hero cells (8 in the glass panel: 4 left, 4 right)
 let cl=N==9?[0,1,2,3,4,5,[6,7],8]:S.slice(0,8).map((_,i)=>i);
-cl=cl.map(c=>Array.isArray(c)?{i:c[0],t:"Hardware & Office IT",img:S[c[1]].img}:{i:c,t:S[c].title,img:S[c].img});
-const cell=c=>`<a class="cell" href="#svc-${c.i}" title="${esc(c.t)}"><img src="${esc(c.img)}" alt=""><span>${esc(c.t)}</span></a>`;
+cl=cl.map(c=>Array.isArray(c)?{i:c[0],t:"Hardware & Office IT",img:S[c[1]].himg||S[c[1]].img}:{i:c,t:S[c].title,img:S[c].himg||S[c].img});
+const cell=c=>`<a class="cell" href="#svc-${c.i}" title="${esc(c.t)}">${isV(c.img)?`<video src="${esc(c.img)}" autoplay muted loop playsinline></video>`:`<img src="${esc(c.img)}" alt="">`}<span>${esc(c.t)}</span></a>`;
 const L=8;let lay="";for(let k=0;k<14;k++)lay+=`<img src="/img/shield.png" alt="" style="--i:${k}" ${k&&k<13?'class="mid"':""}>`;
 const PATH="M30,0H372C405,0 418,66 462,66H638C682,66 695,0 728,0H1070Q1100,0 1100,30V370Q1100,400 1070,400H728C695,400 682,334 638,334H462C418,334 405,400 372,400H30Q0,400 0,370V30Q0,0 30,0Z";
 const FZT="M0,.3C.06,.2 .2,.1 .36,.05C.46,.02 .54,0 .62,0",FZ=FZT+"L0,0";
@@ -325,7 +325,7 @@ const ask=(C.ask||[]).map(a=>`<li><a href="${esc(a.href||"#contact")}"><span>${e
 
 const T=(k,d)=>C.text[k]?esc(C.text[k]):d,lc=[0,2,4,6].filter(i=>i<N),rc=S.map((_,i)=>i).filter(i=>!lc.includes(i));
 const stats=[{n:yr-since,x:"+",l:"Years serving the UAE",img:"/img/sky1.jpg"},{n:C.branches.length,x:"",l:"Branches",img:"/img/sky3.jpg"},{n:N,x:"",l:"Services under one roof",img:"/img/sky4.jpg"},{n:100,x:"%",l:"Result-oriented service",img:"/img/sky5.jpg"}];
-const tile=(s,i,cut)=>{const ph=s.bg&&!isV(s.bg)?`<div class="ph" style="background-image:url('${encodeURI(s.bg).replace(/'/g,"%27")}')"></div>`:"",ic=ph?"":`<img class="ic ${s.inv?"inv":""}" src="${esc(s.img)}" alt="">`;return `<a class="tile rv${cut?" cut-tr":""}" id="svc-${i}" href="#contact" data-s="${esc(s.title)}" style="--h:${205+(i%5)*6}">${ph}${ic}<span class="go">→</span><div class="tt"><h3>${esc(s.title)}</h3><p>${esc(s.desc)}</p></div></a>`};
+const tile=(s,i,cut)=>{const ph=s.bg?(isV(s.bg)?`<video class="ph" src="${esc(s.bg)}" autoplay muted loop playsinline></video>`:`<div class="ph" style="background-image:url('${encodeURI(s.bg).replace(/'/g,"%27")}')"></div>`):"",ic=ph?"":`<img class="ic ${s.inv?"inv":""}" src="${esc(s.img)}" alt="">`;return `<a class="tile rv${cut?" cut-tr":""}" id="svc-${i}" href="#contact" data-s="${esc(s.title)}" style="--h:${205+(i%5)*6}">${ph}${ic}<span class="go">→</span><div class="tt"><h3>${esc(s.title)}</h3><p>${esc(s.desc)}</p></div></a>`};
 $("#top").innerHTML=`
 <section id="hero"><div class="sky"><div class="trk" style="--dur:${slides.length*22}s">${[...slides,...slides].map(u=>`<i style="background-image:url('${encodeURI(u)}')"></i>`).join("")}</div></div>
  <div class="frost" aria-hidden="true"><div class="fz"></div><svg viewBox="0 0 1 1" preserveAspectRatio="none"><defs><clipPath id="fzc" clipPathUnits="objectBoundingBox"><path d="${FZ}Z"/></clipPath><filter id="fgl" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="3"/></filter></defs><path class="ln" d="${FZT}" stroke-width="9" stroke-opacity=".5" filter="url(#fgl)"/><path class="ln" d="${FZT}" stroke-width="2.5"/><path class="ln" d="${FZT}" stroke-width="1.5" stroke-opacity=".6" transform="translate(0 .018)"/></svg></div><div class="vfade"></div>
