@@ -10,14 +10,15 @@ const HOME="/home-9",S=C.services,N=S.length,SP=C.spage,yr=new Date().getFullYea
 $("#hl").src=C.logo;const ic=document.querySelector('link[rel=icon]');if(C.icon)ic.href=C.icon;
 $("#wa").href=wa;$("#fb").href=wa;$("#fb").textContent=C.text.contact_btn;$("#fat").textContent=C.text.quote_btn;
 
-// nav (Services opens the side panel; the others go to the matching part of the home page)
-$("#nv").innerHTML=`<a href="${HOME}#top">Home</a><div class="dd"><a href="/services" id="svb" role="button" aria-controls="sp" aria-expanded="false">Services</a></div><a href="${HOME}#about">About</a><a href="${HOME}#why">Why us</a><a href="${HOME}#branches">Branches</a><a href="#contact">${X("get_in_touch")}</a>`;
+const svcMenu=`<div class="dd"><a href="/services" id="svb" aria-haspopup="true" aria-expanded="false">Services</a><div class="mm"><div class="mmi"><ul style="--r:${Math.ceil(S.length/2)}">${S.map(s=>`<li><a href="/services/${slug(s.title)}"><span class="th"><img class="${s.inv?"inv":""}" src="${esc(s.img)}" alt=""></span><span>${esc(s.title)}</span></a></li>`).join("")}</ul><a class="mall" href="/services">View all services<i>→</i></a></div></div></div>`;
+// nav (Services shows a two-column dropdown; the others go to the matching part of the home page)
+$("#nv").innerHTML=`<a href="${HOME}#top">Home</a>${svcMenu}<a href="${HOME}#about">About</a><a href="${HOME}#why">Why us</a><a href="${HOME}#branches">Branches</a><a href="#contact">${X("get_in_touch")}</a>`;
 $(".logo").href=HOME;
 // header + menu
 const hd=$("#hd"),nv=$("#nv"),bg=$("#bg");
 const onS=()=>hd.classList.toggle("sc",scrollY>40);addEventListener("scroll",onS,{passive:true});onS();
 bg.onclick=()=>{const o=nv.classList.toggle("open");bg.setAttribute("aria-expanded",o)};
-nv.addEventListener("click",e=>{if(e.target.closest("a")){nv.classList.remove("open");bg.setAttribute("aria-expanded","false")}});
+nv.addEventListener("click",e=>{const a=e.target.closest("a");if(a&&!(a.id==="svb"&&matchMedia("(max-width:1060px)").matches)){nv.classList.remove("open");bg.setAttribute("aria-expanded","false")}});
 
 // ---------- shared builders ----------
 const media=(u,s)=>u?(isV(u)?`<video src="${esc(u)}" autoplay muted loop playsinline></video>`:`<img src="${esc(u)}" alt="${esc(s&&s.title||"")}" loading="lazy">`):`<img class="ico ${s&&s.inv?"inv":""}" src="${esc(s&&s.img||"/img/shield.png")}" alt="">`;
@@ -76,12 +77,12 @@ const spShow=(k,force)=>{if(k===spCur&&!force)return;spCur=k;const x=spData[k];
  $("#spact").innerHTML=x.ov?`<a class="btn2" href="#contact">Request a quote</a>`:`<a class="btn2" href="#contact" data-s="${esc(x.t)}">Get a quote</a><a class="gh" href="/services#${x.slug}">View in page</a>`;
  $$("#spl button").forEach(b=>b.classList.toggle("on",+b.dataset.k===k));
  if(!calm){const d=$("#spd"),m=$("#spm");d.classList.remove("fl");m.classList.remove("fl");void d.offsetWidth;d.classList.add("fl");m.classList.add("fl")}};
-const spOpen=o=>{sp.classList.toggle("on",o);sp.setAttribute("aria-hidden",String(!o));document.body.classList.toggle("spo",o);spt.setAttribute("aria-expanded",String(o));svb.setAttribute("aria-expanded",String(o));
+const spOpen=o=>{sp.classList.toggle("on",o);sp.setAttribute("aria-hidden",String(!o));document.body.classList.toggle("spo",o);spt.setAttribute("aria-expanded",String(o));
  if(o){nv.classList.remove("open");bg.setAttribute("aria-expanded","false");if(spCur<0)spShow(0);setTimeout(()=>{if(sp.classList.contains("on"))$("#sx").focus({preventScroll:true})},450)}};
-svb.addEventListener("click",e=>{e.preventDefault();spOpen(!sp.classList.contains("on"))});
+svb.addEventListener("click",e=>{if(matchMedia("(max-width:1060px)").matches){e.preventDefault();svb.parentElement.classList.toggle("open");svb.setAttribute("aria-expanded",String(svb.parentElement.classList.contains("open")))}});
 [nv,$(".logo")].forEach(el=>el&&el.addEventListener("click",e=>{const a=e.target.closest("a");if(a&&a!==svb&&sp.classList.contains("on"))spOpen(false)}));
 spt.addEventListener("click",()=>spOpen(true));
-$("#sx").addEventListener("click",()=>{spOpen(false);svb.focus({preventScroll:true})});
+$("#sx").addEventListener("click",()=>spOpen(false));
 let sht;$$("#spl button").forEach(b=>{const k=+b.dataset.k;
  b.addEventListener("mouseenter",()=>{clearTimeout(sht);sht=setTimeout(()=>spShow(k),70)});
  b.addEventListener("mouseleave",()=>clearTimeout(sht));

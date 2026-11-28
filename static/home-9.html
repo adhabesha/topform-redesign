@@ -25,11 +25,22 @@ header.sc{background:#ffffffee;backdrop-filter:blur(12px);box-shadow:0 6px 30px 
 nav.m{display:flex;align-items:center;gap:clamp(18px,2.4vw,38px);font-weight:700;font-size:.92rem;text-transform:uppercase;letter-spacing:.01em}
 nav.m>a,nav.m>.dd>a{display:inline-flex;align-items:center;gap:6px;padding:10px 0;transition:color .25s}
 nav.m>a:hover,nav.m>.dd:hover>a{color:var(--btn)}
-.dd{position:relative}.dd>a::after{content:"";width:0;height:0;border:4px solid transparent;border-top:5px solid currentColor;border-bottom:0}
-.dd ul{position:absolute;top:100%;left:-18px;min-width:290px;list-style:none;background:#fff;border-radius:12px;box-shadow:0 20px 50px #0b1f4b2e;padding:10px;opacity:0;visibility:hidden;translate:0 8px;transition:.25s}
-.dd:hover ul,.dd:focus-within ul{opacity:1;visibility:visible;translate:0 0}
-.dd li a{display:block;padding:10px 14px;border-radius:8px;font-size:.84rem;text-transform:none;font-weight:600}
-.dd li a:hover{background:var(--paper);color:var(--btn)}
+.dd{position:static}.dd>a::after{content:"";width:0;height:0;border:4px solid transparent;border-top:5px solid currentColor;border-bottom:0;transition:transform .3s}
+.dd:hover>a::after,.dd:focus-within>a::after{transform:rotate(180deg)}
+.mm{position:absolute;top:calc(100% - 4px);right:clamp(20px,3vw,48px);width:min(660px,calc(100vw - 32px));padding-top:14px;opacity:0;visibility:hidden;translate:0 12px;transition:opacity .25s,translate .35s var(--e),visibility 0s .35s;filter:drop-shadow(0 26px 40px #0b1f4b3d);z-index:70}
+.mm::before{content:"";position:absolute;left:0;right:0;top:-34px;height:48px}
+.dd:hover .mm,.dd:focus-within .mm{opacity:1;visibility:visible;translate:0 0;transition:opacity .25s,translate .35s var(--e),visibility 0s}
+.mmi{--c:46px;background:#fff;border-radius:20px;padding:14px;clip-path:polygon(0 0,calc(100% - var(--c)) 0,100% var(--c),100% 100%,0 100%);color:var(--ink);text-transform:none;letter-spacing:0}
+.mm ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(var(--r,5),auto);grid-auto-flow:column;gap:2px 10px;padding-top:6px}
+.mm li a{position:relative;display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:12px;font-size:.88rem;font-weight:700;line-height:1.25;color:var(--ink);transition:color .25s,background .3s,transform .35s var(--e)}
+.mm li .th{flex:none;width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:radial-gradient(circle,#1f86dc,#06285e);box-shadow:inset 0 0 0 1px #ffffff26;transition:box-shadow .3s}
+.mm li .th img{width:74%;height:74%;object-fit:contain}.mm li .th img.inv{filter:brightness(0) invert(1)}
+.mm li a::before{content:"";position:absolute;left:-2px;top:20%;bottom:20%;width:3px;border-radius:3px;background:var(--blue);box-shadow:0 0 12px 2px #17ade8aa;opacity:0;transform:scaleY(.2);transition:.3s}
+.mm li a:hover,.mm li a:focus-visible{outline:0;color:var(--btn);transform:translateX(5px);background:linear-gradient(90deg,#17ade826,#17ade808 75%,transparent)}
+.mm li a:hover .th,.mm li a:focus-visible .th{box-shadow:inset 0 0 0 1px #9fe6ffd9,0 0 16px 3px #17ade8a6}
+.mm li a:hover::before,.mm li a:focus-visible::before{opacity:1;transform:none}
+.mall{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding:13px 16px;border-radius:12px;background:#0b1f4b0b;font-weight:800;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:var(--btn);transition:background .3s,color .3s}
+.mall i{font-style:normal;transition:translate .3s}.mall:hover{background:var(--btn);color:#fff}.mall:hover i{translate:6px 0}
 .bg{display:none;width:44px;height:44px;border-radius:10px;place-items:center;background:#ffffffcc}
 .bg i{display:block;width:22px;height:2px;background:var(--ink);position:relative}.bg i::before,.bg i::after{content:"";position:absolute;left:0;width:22px;height:2px;background:var(--ink)}.bg i::before{top:-7px}.bg i::after{top:7px}
 @media(max-width:1060px){
@@ -37,7 +48,12 @@ nav.m>a:hover,nav.m>.dd:hover>a{color:var(--btn)}
  nav.m{position:fixed;inset:68px 12px auto;background:#fff;border-radius:16px;box-shadow:0 24px 60px #0b1f4b33;padding:14px 22px;flex-direction:column;align-items:stretch;gap:0;max-height:calc(100svh - 90px);overflow:auto;opacity:0;visibility:hidden;translate:0 -8px;transition:.25s}
  nav.m.open{opacity:1;visibility:visible;translate:0 0}
  nav.m>a,nav.m>.dd>a{padding:14px 0;border-bottom:1px solid #0b1f4b14}
- .dd>a::after{display:none}.dd ul{position:static;opacity:1;visibility:visible;translate:none;box-shadow:none;padding:0 0 8px 10px;min-width:0}
+ .dd>a::after{display:inline-block}.dd.open>a::after{transform:rotate(180deg)}
+ .mm{position:static;width:auto;padding:0;opacity:1;visibility:visible;translate:none;filter:none;display:none}.mm::before{display:none}
+ .dd.open .mm{display:block}.dd:hover .mm{translate:none}
+ .mmi{clip-path:none;border-radius:12px;padding:4px 0 8px;background:transparent}
+ .mm ul{grid-template-columns:1fr;grid-template-rows:none;grid-auto-flow:row;padding:0}
+ .mm li a{padding:10px 4px;font-size:.86rem}.mall{margin-top:4px}
 }
 
 /* ---------- hero ---------- */
@@ -389,8 +405,9 @@ $("#hl").src=C.logo;const ic=document.querySelector('link[rel=icon]');if(C.icon)
 const S=C.services,N=S.length,yr=new Date().getFullYear(),since=2010,wa="https://wa.me/"+String(C.text.whatsapp).replace(/\D/g,"");
 $("#wa").href=wa;$("#fb").href=wa;$("#fb").textContent=C.text.contact_btn;$("#fat").textContent=C.text.quote_btn;
 
+const svcMenu=`<div class="dd"><a href="/services" id="svb" aria-haspopup="true" aria-expanded="false">Services</a><div class="mm"><div class="mmi"><ul style="--r:${Math.ceil(S.length/2)}">${S.map(s=>`<li><a href="/services/${slug(s.title)}"><span class="th"><img class="${s.inv?"inv":""}" src="${esc(s.img)}" alt=""></span><span>${esc(s.title)}</span></a></li>`).join("")}</ul><a class="mall" href="/services">View all services<i>→</i></a></div></div></div>`;
 // nav
-$("#nv").innerHTML=`<a href="#top">Home</a><div class="dd"><a href="#services" id="svb" role="button" aria-controls="sp" aria-expanded="false">Services</a></div><a href="#about">About</a><a href="#why">Why us</a><a href="#branches">Branches</a><a href="#contact">${X("get_in_touch")}</a>`;
+$("#nv").innerHTML=`<a href="#top">Home</a>${svcMenu}<a href="#about">About</a><a href="#why">Why us</a><a href="#branches">Branches</a><a href="#contact">${X("get_in_touch")}</a>`;
 
 // hero cells (8 in the glass panel: 4 left, 4 right)
 let cl=N==9?[0,1,2,3,4,5,[6,7],8]:S.slice(0,8).map((_,i)=>i);
@@ -474,7 +491,7 @@ addEventListener("scroll",()=>{if(!tk){tk=1;requestAnimationFrame(par)}},{passiv
 const hd=$("#hd"),nv=$("#nv"),bg=$("#bg");
 const onS=()=>hd.classList.toggle("sc",scrollY>40);addEventListener("scroll",onS,{passive:true});onS();
 bg.onclick=()=>{const o=nv.classList.toggle("open");bg.setAttribute("aria-expanded",o)};
-nv.addEventListener("click",e=>{if(e.target.closest("a")){nv.classList.remove("open");bg.setAttribute("aria-expanded","false")}});
+nv.addEventListener("click",e=>{const a=e.target.closest("a");if(a&&!(a.id==="svb"&&matchMedia("(max-width:1060px)").matches)){nv.classList.remove("open");bg.setAttribute("aria-expanded","false")}});
 
 // ---- services side panel ----
 const spData=[{t:"All services",d:C.text.svc_sub||"",pts:[],ov:1},...S.map((s,i)=>({t:s.title,d:s.desc,pts:Array.isArray(s.pts)?s.pts:[],blurb:s.blurb||"",slug:slug(s.title),bg:s.bg,img:s.img,inv:s.inv,i}))];
@@ -487,12 +504,12 @@ const spShow=(k,force)=>{if(k===spCur&&!force)return;spCur=k;const x=spData[k];
  $("#spact").innerHTML=x.ov?`<a class="btn2" href="#contact">Request a quote</a>`:`<a class="btn2" href="#contact" data-s="${esc(x.t)}">Get a quote</a><a class="gh" href="/services#${x.slug}">View in page</a>`;
  $$("#spl button").forEach(b=>b.classList.toggle("on",+b.dataset.k===k));
  if(!calm){const d=$("#spd"),m=$("#spm");d.classList.remove("fl");m.classList.remove("fl");void d.offsetWidth;d.classList.add("fl");m.classList.add("fl")}};
-const spOpen=o=>{sp.classList.toggle("on",o);sp.setAttribute("aria-hidden",String(!o));document.body.classList.toggle("spo",o);spt.setAttribute("aria-expanded",String(o));svb.setAttribute("aria-expanded",String(o));
+const spOpen=o=>{sp.classList.toggle("on",o);sp.setAttribute("aria-hidden",String(!o));document.body.classList.toggle("spo",o);spt.setAttribute("aria-expanded",String(o));
  if(o){nv.classList.remove("open");bg.setAttribute("aria-expanded","false");if(spCur<0)spShow(0);setTimeout(()=>{if(sp.classList.contains("on"))$("#sx").focus({preventScroll:true})},450)}};
-svb.addEventListener("click",e=>{e.preventDefault();spOpen(!sp.classList.contains("on"))});
+svb.addEventListener("click",e=>{if(matchMedia("(max-width:1060px)").matches){e.preventDefault();svb.parentElement.classList.toggle("open");svb.setAttribute("aria-expanded",String(svb.parentElement.classList.contains("open")))}});
 [nv,$(".logo")].forEach(el=>el&&el.addEventListener("click",e=>{const a=e.target.closest("a");if(a&&a!==svb&&sp.classList.contains("on"))spOpen(false)}));
 spt.addEventListener("click",()=>spOpen(true));
-$("#sx").addEventListener("click",()=>{spOpen(false);svb.focus({preventScroll:true})});
+$("#sx").addEventListener("click",()=>spOpen(false));
 let sht;$$("#spl button").forEach(b=>{const k=+b.dataset.k;
  b.addEventListener("mouseenter",()=>{clearTimeout(sht);sht=setTimeout(()=>spShow(k),70)});
  b.addEventListener("mouseleave",()=>clearTimeout(sht));
