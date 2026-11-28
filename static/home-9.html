@@ -340,6 +340,8 @@ footer{background:#efefef;padding:clamp(20px,3vw,40px) 0 0;color:#3d4350}
 .spd.fl .spp,.spd.fl .spa{animation:ftx .6s var(--e) .19s backwards}
 @keyframes ftx{from{opacity:0;translate:0 16px;filter:blur(6px)}}
 /* the persistent tab on the right edge, and header over the open panel */
+.spbk{position:fixed;inset:0;z-index:54;pointer-events:none;opacity:0;background:linear-gradient(90deg,#06183e00 30%,#06183e47);-webkit-backdrop-filter:blur(10px) saturate(1.08);backdrop-filter:blur(10px) saturate(1.08);transition:opacity .7s var(--e)}
+body.spo .spbk{opacity:1}
 .spt{position:fixed;z-index:54;right:0;top:50%;translate:0 -50%;writing-mode:vertical-rl;padding:20px 11px;border-radius:14px 0 0 14px;background:linear-gradient(180deg,#0b6fc0,#003a82);color:#fff;font-weight:800;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;box-shadow:-6px 8px 26px #0b1f4b40;transition:padding .3s var(--e),box-shadow .3s,opacity .3s}
 .spt:hover,.spt:focus-visible{padding-right:20px;box-shadow:-6px 8px 30px #17ade8aa,0 0 22px #17ade8aa}
 body.spo .spt{opacity:0;pointer-events:none}
@@ -475,7 +477,7 @@ nv.addEventListener("click",e=>{if(e.target.closest("a")){nv.classList.remove("o
 
 // ---- services side panel ----
 const spData=[{t:"All services",d:C.text.svc_sub||"",pts:[],ov:1},...S.map((s,i)=>({t:s.title,d:s.desc,pts:Array.isArray(s.pts)?s.pts:[],more:s.more||"",bg:s.bg,img:s.img,inv:s.inv,i}))];
-document.body.insertAdjacentHTML("beforeend",`<aside class="sp" id="sp" aria-label="Our services" aria-hidden="true"><div class="spb"><button class="sx" id="sx" type="button" aria-label="Close services panel">×</button><div class="spi" id="spi"><ul class="spl" id="spl">${spData.map((x,k)=>`<li style="--k:${k}"><button type="button" data-k="${k}"><span class="th"><img class="${x.inv?"inv":""}" src="${x.ov?"/img/shield.png":esc(x.img)}" alt=""></span><span>${esc(x.t)}</span></button></li>`).join("")}</ul><div class="spd" id="spd" aria-live="polite"><div class="spmw"><div class="spm cut-tr" id="spm"></div></div><h3 id="sph"></h3><p class="sd" id="spdesc"></p><div class="mx" id="spmx"></div><ul class="spp" id="sppts"></ul><div class="spa" id="spact"></div></div></div></div></aside><button class="spt" id="spt" type="button" aria-controls="sp" aria-expanded="false">Our services</button>`);
+document.body.insertAdjacentHTML("beforeend",`<div class="spbk" aria-hidden="true"></div><aside class="sp" id="sp" aria-label="Our services" aria-hidden="true"><div class="spb"><button class="sx" id="sx" type="button" aria-label="Close services panel">×</button><div class="spi" id="spi"><ul class="spl" id="spl">${spData.map((x,k)=>`<li style="--k:${k}"><button type="button" data-k="${k}"><span class="th"><img class="${x.inv?"inv":""}" src="${x.ov?"/img/shield.png":esc(x.img)}" alt=""></span><span>${esc(x.t)}</span></button></li>`).join("")}</ul><div class="spd" id="spd" aria-live="polite"><div class="spmw"><div class="spm cut-tr" id="spm"></div></div><h3 id="sph"></h3><p class="sd" id="spdesc"></p><div class="mx" id="spmx"></div><ul class="spp" id="sppts"></ul><div class="spa" id="spact"></div></div></div></div></aside><button class="spt" id="spt" type="button" aria-controls="sp" aria-expanded="false">Our services</button>`);
 const spMd=t=>{const E=x=>esc(x).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>");let h="",ul=0;String(t||"").split(/\r?\n/).forEach(l=>{l=l.trim();if(!l)return;if(l.startsWith("- ")){if(!ul){h+="<ul>";ul=1}h+="<li>"+E(l.slice(2))+"</li>";return}if(ul){h+="</ul>";ul=0}h+=l.startsWith("## ")?"<h4>"+E(l.slice(3))+"</h4>":"<p>"+E(l)+"</p>"});if(ul)h+="</ul>";return h};
 const sp=$("#sp"),spt=$("#spt"),svb=$("#svb");let spCur=-1;
 const spShow=(k,force)=>{if(k===spCur&&!force)return;spCur=k;const x=spData[k];
@@ -487,6 +489,7 @@ const spShow=(k,force)=>{if(k===spCur&&!force)return;spCur=k;const x=spData[k];
 const spOpen=o=>{sp.classList.toggle("on",o);sp.setAttribute("aria-hidden",String(!o));document.body.classList.toggle("spo",o);spt.setAttribute("aria-expanded",String(o));svb.setAttribute("aria-expanded",String(o));
  if(o){nv.classList.remove("open");bg.setAttribute("aria-expanded","false");if(spCur<0)spShow(0);setTimeout(()=>{if(sp.classList.contains("on"))$("#sx").focus({preventScroll:true})},450)}};
 svb.addEventListener("click",e=>{e.preventDefault();spOpen(!sp.classList.contains("on"))});
+[nv,$(".logo")].forEach(el=>el&&el.addEventListener("click",e=>{const a=e.target.closest("a");if(a&&a!==svb&&sp.classList.contains("on"))spOpen(false)}));
 spt.addEventListener("click",()=>spOpen(true));
 $("#sx").addEventListener("click",()=>{spOpen(false);svb.focus({preventScroll:true})});
 let sht;$$("#spl button").forEach(b=>{const k=+b.dataset.k;
