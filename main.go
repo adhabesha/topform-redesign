@@ -521,6 +521,16 @@ func main() {
 	mux.HandleFunc("/home-6", homePage("home-6.html"))
 	mux.HandleFunc("/home-7", homePage("home-7.html"))
 	mux.HandleFunc("/home-8", homePage("home-8.html"))
+	// services list (like the reference page) and one page per service
+	mux.HandleFunc("/services", homePage("services.html"))
+	servicePage := homePage("service.html")
+	mux.HandleFunc("/services/", func(w http.ResponseWriter, r *http.Request) {
+		if strings.Trim(r.URL.Path, "/") == "services" {
+			http.Redirect(w, r, "/services", http.StatusMovedPermanently)
+			return
+		}
+		servicePage(w, r)
+	})
 	mux.HandleFunc("/admin", serveAdmin)
 	mux.HandleFunc("/admin/", serveAdmin)
 	mux.HandleFunc("/uploads/", func(w http.ResponseWriter, r *http.Request) {

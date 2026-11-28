@@ -379,7 +379,8 @@ body.spo .logo{background:#fffffff2;border-radius:14px;padding:5px 12px;box-shad
 
 <script>(async()=>{
 const DEF=window.DEFAULTS;let SV={};try{const r=await fetch("/api/content",{cache:"no-store"});if(r.ok)SV=await r.json()}catch(e){}
-const C=(o=>{const dm=t=>(DEF.services.find(x=>String(x.title).trim().toLowerCase()===String(t).trim().toLowerCase())||{});(o.services||[]).forEach(s=>{if(s.more===undefined&&dm(s.title).more)s.more=dm(s.title).more});return o})({...DEF,...SV,text:{...DEF.text,...(SV.text||{})},blocks:{...DEF.blocks,...(SV.blocks||{})}});
+const C=(o=>{const dm=t=>(DEF.services.find(x=>String(x.title).trim().toLowerCase()===String(t).trim().toLowerCase())||{});(o.services||[]).forEach(s=>{["more","head","blurb"].forEach(k=>{if(s[k]===undefined&&dm(s.title)[k])s[k]=dm(s.title)[k]})});return o})({...DEF,...SV,text:{...DEF.text,...(SV.text||{})},blocks:{...DEF.blocks,...(SV.blocks||{})},spage:{...DEF.spage,...(SV.spage||{})}});
+const slug=t=>String(t||"").toLowerCase().replace(/&/g,"and").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
 const esc=t=>String(t??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])),X=k=>esc(C.text[k]),tel=k=>"tel:"+String(C.text[k]||"").replace(/[^\d+]/g,""),
 isV=u=>/\.(mp4|webm)(\?|$)/i.test(u),M=u=>isV(u)?`<video src="${esc(u)}" autoplay muted loop playsinline></video>`:`<img src="${esc(u)}" alt="" loading="lazy">`;
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],calm=matchMedia("(prefers-reduced-motion:reduce)").matches,pad=n=>String(n).padStart(2,"0");
@@ -394,7 +395,7 @@ $("#nv").innerHTML=`<a href="#top">Home</a><div class="dd"><a href="#services" i
 // hero cells (8 in the glass panel: 4 left, 4 right)
 let cl=N==9?[0,1,2,3,4,5,[6,7],8]:S.slice(0,8).map((_,i)=>i);
 cl=cl.map(c=>Array.isArray(c)?{i:c[0],t:"Hardware & Office IT",img:S[c[0]].himg||S[c[1]].himg||S[c[1]].img}:{i:c,t:S[c].title,img:S[c].himg||S[c].img});
-const cell=c=>`<a class="cell" href="#svc-${c.i}" title="${esc(c.t)}">${isV(c.img)?`<video src="${esc(c.img)}" autoplay muted loop playsinline></video>`:`<img src="${esc(c.img)}" alt="">`}<span>${esc(c.t)}</span></a>`;
+const cell=c=>`<a class="cell" href="/services/${slug(S[c.i].title)}" title="${esc(c.t)}">${isV(c.img)?`<video src="${esc(c.img)}" autoplay muted loop playsinline></video>`:`<img src="${esc(c.img)}" alt="">`}<span>${esc(c.t)}</span></a>`;
 const L=8;let lay="";for(let k=0;k<14;k++)lay+=`<img src="/img/shield.png" alt="" style="--i:${k}" ${k&&k<13?'class="mid"':""}>`;
 const PATH="M30,0H372C405,0 418,66 462,66H638C682,66 695,0 728,0H1070Q1100,0 1100,30V370Q1100,400 1070,400H728C695,400 682,334 638,334H462C418,334 405,400 372,400H30Q0,400 0,370V30Q0,0 30,0Z";
 const FZT="M0,.3C.06,.2 .2,.1 .36,.05C.46,.02 .54,0 .62,0",FZ=FZT+"L0,0";
@@ -407,7 +408,7 @@ const ask=(C.ask||[]).map(a=>`<li><a href="${esc(a.href||"#contact")}"><span>${e
 
 const T=(k,d)=>C.text[k]?esc(C.text[k]):d,lc=[0,2,4,6].filter(i=>i<N),rc=S.map((_,i)=>i).filter(i=>!lc.includes(i));
 const stats=[{n:yr-since,x:"+",l:"Years serving the UAE",img:"/img/sky1.jpg"},{n:C.branches.length,x:"",l:"Branches",img:"/img/sky3.jpg"},{n:N,x:"",l:"Services under one roof",img:"/img/sky4.jpg"},{n:100,x:"%",l:"Result-oriented service",img:"/img/sky5.jpg"}];
-const tile=(s,i,cut)=>{const ph=s.bg?(isV(s.bg)?`<video class="ph" src="${esc(s.bg)}" autoplay muted loop playsinline></video>`:`<div class="ph" style="background-image:url('${encodeURI(s.bg).replace(/'/g,"%27")}')"></div>`):"",ic=ph?"":`<img class="ic ${s.inv?"inv":""}" src="${esc(s.img)}" alt="">`;return `<a class="tile rv${cut?" cut-tr":""}" id="svc-${i}" href="#contact" data-s="${esc(s.title)}" style="--h:${205+(i%5)*6}">${ph}${ic}<span class="go">→</span><div class="tt"><h3>${esc(s.title)}</h3><p>${esc(s.desc)}</p></div></a>`};
+const tile=(s,i,cut)=>{const ph=s.bg?(isV(s.bg)?`<video class="ph" src="${esc(s.bg)}" autoplay muted loop playsinline></video>`:`<div class="ph" style="background-image:url('${encodeURI(s.bg).replace(/'/g,"%27")}')"></div>`):"",ic=ph?"":`<img class="ic ${s.inv?"inv":""}" src="${esc(s.img)}" alt="">`;return `<a class="tile rv${cut?" cut-tr":""}" id="svc-${i}" href="/services/${slug(s.title)}" data-s="${esc(s.title)}" style="--h:${205+(i%5)*6}">${ph}${ic}<span class="go">→</span><div class="tt"><h3>${esc(s.title)}</h3><p>${esc(s.desc)}</p></div></a>`};
 $("#top").innerHTML=`
 <section id="hero"><div class="sky"><div class="trk" style="--dur:${slides.length*22}s">${[...slides,...slides].map(u=>`<i style="background-image:url('${encodeURI(u)}')"></i>`).join("")}</div></div>
  <div class="frost" aria-hidden="true"><div class="fz"></div><svg viewBox="0 0 1 1" preserveAspectRatio="none"><defs><clipPath id="fzc" clipPathUnits="objectBoundingBox"><path d="${FZ}Z"/></clipPath><filter id="fgl" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="3"/></filter></defs><path class="ln" d="${FZT}" stroke-width="9" stroke-opacity=".5" filter="url(#fgl)"/><path class="ln" d="${FZT}" stroke-width="2.5"/><path class="ln" d="${FZT}" stroke-width="1.5" stroke-opacity=".6" transform="translate(0 .018)"/></svg></div><div class="vfade"></div>
@@ -456,7 +457,7 @@ $("#top").innerHTML=`
 <footer><div class="ft"><div class="fl2 cut-tr rv l"><img src="${esc(C.logo)}" alt="Topform Technologies"><h4>${X("office_label")}</h4><address style="font-style:normal">${X("office")}</address><a class="ph" href="${tel("phone1")}">${X("phone1")}</a><a class="ph" href="${tel("phone2")}">${X("phone2")}</a>
  <form class="sf" id="sf"><input name="First Name" placeholder="First Name" aria-label="First Name" autocomplete="given-name"><input name="Last Name" placeholder="Last Name" aria-label="Last Name" autocomplete="family-name"><input name="Email" type="email" required placeholder="Email" aria-label="Email" autocomplete="email"><input name="Company" placeholder="Company" aria-label="Company" autocomplete="organization"><button class="btn2">Subscribe</button><small role="status"></small></form></div>
  <div class="fr2 cut-tl rv r" style="--d:.1s"><div class="fc"><div><b>Company</b><a href="#about">About</a><a href="#services">Services</a><a href="#why">Why us</a><a href="#branches">Branches</a></div>
- <div><b>Services</b>${S.slice(0,8).map((s,i)=>`<a href="#svc-${i}">${esc(s.title)}</a>`).join("")}</div>
+ <div><b>Services</b>${S.slice(0,9).map((s,i)=>`<a href="/services/${slug(s.title)}">${esc(s.title)}</a>`).join("")}</div>
  <div><b>Get in touch</b><a href="mailto:${esc(C.text.email1)}">${X("email1")}</a><a href="mailto:${esc(C.text.email2)}">${X("email2")}</a><a href="${tel("phone2")}">${X("phone2")}</a><a href="${tel("phone1")}">${X("phone1")}</a></div>
  <div><b>Quick links</b><a href="#contact">Request a quote</a><a href="${wa}" target="_blank" rel="noopener">WhatsApp us</a></div></div>
  <div class="cp"><span>© ${yr} ${X("footer")}</span><span>Secure · Connect · Power</span></div></div></div></footer>`;
@@ -476,14 +477,14 @@ bg.onclick=()=>{const o=nv.classList.toggle("open");bg.setAttribute("aria-expand
 nv.addEventListener("click",e=>{if(e.target.closest("a")){nv.classList.remove("open");bg.setAttribute("aria-expanded","false")}});
 
 // ---- services side panel ----
-const spData=[{t:"All services",d:C.text.svc_sub||"",pts:[],ov:1},...S.map((s,i)=>({t:s.title,d:s.desc,pts:Array.isArray(s.pts)?s.pts:[],more:s.more||"",bg:s.bg,img:s.img,inv:s.inv,i}))];
+const spData=[{t:"All services",d:C.text.svc_sub||"",pts:[],ov:1},...S.map((s,i)=>({t:s.title,d:s.desc,pts:Array.isArray(s.pts)?s.pts:[],blurb:s.blurb||"",slug:slug(s.title),bg:s.bg,img:s.img,inv:s.inv,i}))];
 document.body.insertAdjacentHTML("beforeend",`<div class="spbk" aria-hidden="true"></div><aside class="sp" id="sp" aria-label="Our services" aria-hidden="true"><div class="spb"><button class="sx" id="sx" type="button" aria-label="Close services panel">×</button><div class="spi" id="spi"><ul class="spl" id="spl">${spData.map((x,k)=>`<li style="--k:${k}"><button type="button" data-k="${k}"><span class="th"><img class="${x.inv?"inv":""}" src="${x.ov?"/img/shield.png":esc(x.img)}" alt=""></span><span>${esc(x.t)}</span></button></li>`).join("")}</ul><div class="spd" id="spd" aria-live="polite"><div class="spmw"><div class="spm cut-tr" id="spm"></div></div><h3 id="sph"></h3><p class="sd" id="spdesc"></p><div class="mx" id="spmx"></div><ul class="spp" id="sppts"></ul><div class="spa" id="spact"></div></div></div></div></aside><button class="spt" id="spt" type="button" aria-controls="sp" aria-expanded="false">Our services</button>`);
 const spMd=t=>{const E=x=>esc(x).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>");let h="",ul=0;String(t||"").split(/\r?\n/).forEach(l=>{l=l.trim();if(!l)return;if(l.startsWith("- ")){if(!ul){h+="<ul>";ul=1}h+="<li>"+E(l.slice(2))+"</li>";return}if(ul){h+="</ul>";ul=0}h+=l.startsWith("## ")?"<h4>"+E(l.slice(3))+"</h4>":"<p>"+E(l)+"</p>"});if(ul)h+="</ul>";return h};
 const sp=$("#sp"),spt=$("#spt"),svb=$("#svb");let spCur=-1;
 const spShow=(k,force)=>{if(k===spCur&&!force)return;spCur=k;const x=spData[k];
  $("#spm").innerHTML=x.ov?`<img class="mi ico" src="/img/shield.png" alt="">`:x.bg?(isV(x.bg)?`<video class="mi" src="${esc(x.bg)}" autoplay muted loop playsinline></video>`:`<img class="mi" src="${esc(x.bg)}" alt="">`):`<img class="mi ico ${x.inv?"inv":""}" src="${esc(x.img)}" alt="">`;
- $("#sph").textContent=x.t;$("#spdesc").textContent=x.d;$("#spmx").innerHTML=spMd(x.more);$("#sppts").innerHTML=x.more?"":x.pts.map(p=>`<li>${esc(p)}</li>`).join("");$("#spd").scrollTop=0;
- $("#spact").innerHTML=x.ov?`<a class="btn2" href="#contact">Request a quote</a>`:`<a class="btn2" href="#contact" data-s="${esc(x.t)}">Get a quote</a><a class="gh" href="#svc-${x.i}">View in page</a>`;
+ $("#sph").textContent=x.t;$("#spdesc").textContent=x.ov?x.d:(x.blurb||x.d);$("#spmx").innerHTML="";$("#sppts").innerHTML=x.pts.map(p=>`<li>${esc(p)}</li>`).join("");$("#spd").scrollTop=0;
+ $("#spact").innerHTML=x.ov?`<a class="btn2" href="#contact">Request a quote</a>`:`<a class="btn2" href="#contact" data-s="${esc(x.t)}">Get a quote</a><a class="gh" href="/services#${x.slug}">View in page</a>`;
  $$("#spl button").forEach(b=>b.classList.toggle("on",+b.dataset.k===k));
  if(!calm){const d=$("#spd"),m=$("#spm");d.classList.remove("fl");m.classList.remove("fl");void d.offsetWidth;d.classList.add("fl");m.classList.add("fl")}};
 const spOpen=o=>{sp.classList.toggle("on",o);sp.setAttribute("aria-hidden",String(!o));document.body.classList.toggle("spo",o);spt.setAttribute("aria-expanded",String(o));svb.setAttribute("aria-expanded",String(o));
